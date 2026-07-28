@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
+  actions: write
 
 concurrency:
   group: update-public-rules
@@ -33,11 +35,29 @@ jobs:
           else
             echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
-      - name: Commit updated rules
+      - name: Create or update pull request
         if: steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          branch='automation/update-public-rules'
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin "$branch:refs/remotes/origin/$branch" || true
+          git switch -C "$branch"
           git add vendor shadowrocket stash sing-box
           git commit -m 'chore: update public rules'
-          git push
+          git push --force-with-lease origin "HEAD:refs/heads/$branch"
+
+          pr_number="$(gh pr list --head "$branch" --base main --state open --json number --jq '.[0].number // empty')"
+          if [ -z "$pr_number" ]; then
+            pr_url="$(gh pr create \
+              --base main \
+              --head "$branch" \
+              --title 'chore: update public rules' \
+              --body 'Automated public upstream refresh. Generated outputs are published only after validation succeeds.')"
+            pr_number="${pr_url##*/}"
+          fi
+
+          gh workflow run validate.yml --ref "$branch"
+          echo "Update PR #$pr_number is waiting for validation."

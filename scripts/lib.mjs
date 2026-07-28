@@ -6,7 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
 export const execFileAsync = promisify(execFile);
-export const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const generatorDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+export const rootDir = resolve(process.env.NETWORK_RULES_ROOT || generatorDir);
+export const outputDir = resolve(rootDir, process.env.NETWORK_RULES_OUTPUT_DIR || '.');
 
 export async function readJson(path) {
   return JSON.parse(await readFile(path, 'utf8'));

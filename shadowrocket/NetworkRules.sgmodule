@@ -1,4 +1,4 @@
-#!url=https://raw.githubusercontent.com/inderiva/network-rules-dist/main/shadowrocket/NetworkRules.sgmodule
+#!url=https://raw.githubusercontent.com/inderiva/network-rules-dist/release/shadowrocket/NetworkRules.sgmodule
 #!name=Network Rules (Ads Only)
 #!desc=仅添加广告拒绝规则，不修改直连、代理或最终策略
 #!homepage=https://github.com/inderiva/network-rules-dist
@@ -6,6 +6,7 @@
 [Rule]
 # 省略 1 条 Shadowrocket 不兼容的 DOMAIN-REGEX。
 
+# 广告拒绝
 DOMAIN,1l-hit.mail.ru,REJECT
 DOMAIN,1l-hit.vkplay.ru,REJECT
 DOMAIN,ad-channel.diwodiwo.xyz,REJECT

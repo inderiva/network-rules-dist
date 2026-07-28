@@ -2,6 +2,7 @@ import { copyFile, mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import {
   execFileAsync,
+  outputDir,
   readJson,
   resetDirectory,
   rootDir,
@@ -88,10 +89,10 @@ function shadowrocketRuleSet(rules) {
   ]);
 }
 
-function shadowrocketProvider(name, type, values) {
+function shadowrocketProvider(name, type, values, homepage) {
   return [
     `# NAME: ${name}`,
-    '# REPO: https://github.com/inderiva/network-rules-dist',
+    ...(homepage ? [`# REPO: ${homepage}`] : []),
     `# TYPE: ${type}`,
     `# TOTAL: ${values.length}`,
     '',
@@ -113,6 +114,17 @@ function shadowrocketInlineRules(rules, action, proxyPolicy) {
 const custom = await readJson(resolve(rootDir, 'src/rules.json'));
 const targets = await readJson(resolve(rootDir, 'src/targets.json'));
 validateCustom(custom);
+const profile = targets.generator?.profile ?? 'public';
+if (!['public', 'private'].includes(profile)) throw new Error(`不支持的生成配置：${profile}`);
+const privateProfile = profile === 'private';
+const rulesBaseUrl = (process.env.RULES_BASE_URL || targets.public_base_url || '').replace(/\/$/, '');
+if (!privateProfile && !rulesBaseUrl) throw new Error('公共生成配置必须提供 public_base_url');
+const homepage = targets.homepage
+  || (rulesBaseUrl.includes('raw.githubusercontent.com')
+    ? rulesBaseUrl.replace('raw.githubusercontent.com', 'github.com').replace(/\/(?:main|release)$/, '')
+    : '');
+const stashCacheNamespace = targets.generator?.stash_cache_namespace ?? 'network-rules-v2';
+if (!/^[a-zA-Z0-9._-]+$/.test(stashCacheNamespace)) throw new Error('stash_cache_namespace 只能包含字母、数字、点、下划线和连字符');
 const upstream = {
   ads: flatten(await readJson(resolve(rootDir, 'vendor/source/geosite-category-ads-all.json'))),
   cnDomain: flatten(await readJson(resolve(rootDir, 'vendor/source/geosite-cn.json'))),
@@ -131,7 +143,7 @@ const singRuleSets = [
   { tag: 'geoip-cn', action: 'direct', sourceFile: 'geoip-cn.json' }
 ];
 
-const singBoxDir = resolve(rootDir, 'sing-box');
+const singBoxDir = resolve(outputDir, 'sing-box');
 await resetDirectory(singBoxDir);
 const singRulesDir = resolve(singBoxDir, 'rules');
 await mkdir(singRulesDir, { recursive: true });
@@ -160,7 +172,7 @@ const remoteRuleSets = singRuleSets.map((item) => ({
   type: 'remote',
   tag: item.tag,
   format: 'binary',
-  url: `${targets.public_base_url}/sing-box/rules/${item.tag}.srs`,
+  url: `${rulesBaseUrl}/sing-box/rules/${item.tag}.srs`,
   update_interval: '1d'
 }));
 function routeFragment(ruleSets) {
@@ -172,7 +184,7 @@ function routeFragment(ruleSets) {
   };
 }
 await writeJson(resolve(singBoxDir, 'route.local.fragment.json'), routeFragment(localRuleSets));
-await writeJson(resolve(singBoxDir, 'route.remote.fragment.json'), routeFragment(remoteRuleSets));
+if (rulesBaseUrl) await writeJson(resolve(singBoxDir, 'route.remote.fragment.json'), routeFragment(remoteRuleSets));
 await writeJson(resolve(singBoxDir, 'dns.fragment.json'), {
   dns: {
     rules: [
@@ -182,7 +194,7 @@ await writeJson(resolve(singBoxDir, 'dns.fragment.json'), {
   }
 });
 
-const stashDir = resolve(rootDir, 'stash');
+const stashDir = resolve(outputDir, 'stash');
 await resetDirectory(stashDir);
 await mkdir(resolve(stashDir, 'rules'), { recursive: true });
 const stashProviders = [];
@@ -202,26 +214,31 @@ await addStashProvider('geosite-category-ads-all-classical', 'classical', classi
 await addStashProvider('geosite-cn-domain', 'domain', domainProvider(upstream.cnDomain), 'direct');
 await addStashProvider('geosite-cn-classical', 'classical', classicalProvider(upstream.cnDomain), 'direct');
 await addStashProvider('geoip-cn', 'ipcidr', upstream.cnIp.ip_cidr, 'direct');
+const stashOverrideProviders = stashProviders.filter(({ name }) =>
+  name.startsWith('geosite-category-ads-all-') || (privateProfile && name.startsWith('custom-'))
+);
 const stashOverride = [
   "name: 'Network Rules'",
-  "desc: '由公开上游生成的广告拦截与国内直连规则'",
-  `homepage: '${targets.public_base_url.replace('raw.githubusercontent.com', 'github.com').replace('/main', '')}'`,
+  privateProfile
+    ? "desc: '私有覆盖与广告拦截，不修改通用国内直连策略'"
+    : "desc: '仅添加广告拦截，不修改直连、代理或最终策略'",
+  ...(homepage ? [`homepage: '${homepage}'`] : []),
   'rule-providers:',
-  ...stashProviders.flatMap(({ name, behavior, relative }) => [
+  ...stashOverrideProviders.flatMap(({ name, behavior, relative }) => [
     `  ${name}:`,
     `    behavior: ${behavior}`,
     '    format: yaml',
-    `    path: ./rules/network-rules-dist/${name}.yaml`,
-    `    url: ${targets.public_base_url}/stash/${relative}`,
+    `    path: ${rulesBaseUrl ? `./rules/${stashCacheNamespace}/${name}.yaml` : `./${relative}`}`,
+    ...(rulesBaseUrl ? [`    url: ${rulesBaseUrl}/stash/${relative}`] : []),
     '    interval: 86400'
   ]),
   'rules:',
-  ...stashProviders.map(({ name, action }) => `  - RULE-SET,${name},${clientPolicy(action, targets.stash.proxy_policy)}`),
+  ...stashOverrideProviders.map(({ name, action }) => `  - RULE-SET,${name},${clientPolicy(action, targets.stash.proxy_policy)}`),
   ''
 ].join('\n');
 await writeAtomic(resolve(stashDir, 'NetworkRules.stoverride'), stashOverride);
 
-const shadowrocketDir = resolve(rootDir, 'shadowrocket');
+const shadowrocketDir = resolve(outputDir, 'shadowrocket');
 await resetDirectory(shadowrocketDir);
 const shadowrocketRulesDir = resolve(shadowrocketDir, 'rules');
 await mkdir(shadowrocketRulesDir, { recursive: true });
@@ -232,7 +249,7 @@ async function addShadowrocketSet(name, type, values, action, section) {
   shadowrocketSets.push({ name, type, relative, action, section });
   await writeAtomic(
     resolve(shadowrocketDir, relative),
-    shadowrocketProvider(name, type === 'DOMAIN-SET' ? 'domain-set' : 'rule-set', values)
+    shadowrocketProvider(name, type === 'DOMAIN-SET' ? 'domain-set' : 'rule-set', values, homepage)
   );
 }
 for (const action of actions) {
@@ -287,30 +304,37 @@ await addShadowrocketSet(
   '国内直连'
 );
 
-const shadowrocketRejectRules = uniqueSorted([
-  ...shadowrocketInlineRules(custom.groups.reject, 'reject', targets.shadowrocket.proxy_policy),
-  ...shadowrocketInlineRules(upstream.ads, 'reject', targets.shadowrocket.proxy_policy)
-]);
-const omittedRegex = custom.groups.reject.domain_regex.length + upstream.ads.domain_regex.length;
+const shadowrocketModuleSections = [
+  ...(privateProfile ? actions.map((action) => ({
+    title: `自定义${action}`,
+    rules: shadowrocketInlineRules(custom.groups[action], action, targets.shadowrocket.proxy_policy)
+  })) : []),
+  { title: '广告拒绝', rules: shadowrocketInlineRules(upstream.ads, 'reject', targets.shadowrocket.proxy_policy) }
+].filter(({ rules }) => rules.length);
+const omittedRegex = upstream.ads.domain_regex.length
+  + (privateProfile ? actions.reduce((count, action) => count + custom.groups[action].domain_regex.length, 0) : 0);
 const shadowrocketModule = [
-  `#!url=${targets.public_base_url}/shadowrocket/NetworkRules.sgmodule`,
-  '#!name=Network Rules (Ads Only)',
-  '#!desc=仅添加广告拒绝规则，不修改直连、代理或最终策略',
-  '#!homepage=https://github.com/inderiva/network-rules-dist',
+  ...(rulesBaseUrl ? [`#!url=${rulesBaseUrl}/shadowrocket/NetworkRules.sgmodule`] : []),
+  privateProfile ? '#!name=Network Rules (Private Overlay)' : '#!name=Network Rules (Ads Only)',
+  privateProfile
+    ? '#!desc=添加私有覆盖与广告拒绝，不加载通用国内直连规则'
+    : '#!desc=仅添加广告拒绝规则，不修改直连、代理或最终策略',
+  ...(homepage ? [`#!homepage=${homepage}`] : []),
   '',
   '[Rule]',
   ...(omittedRegex ? [`# 省略 ${omittedRegex} 条 Shadowrocket 不兼容的 DOMAIN-REGEX。`, ''] : []),
-  ...shadowrocketRejectRules,
+  ...shadowrocketModuleSections.flatMap(({ title, rules }) => [`# ${title}`, ...rules, '']),
   ''
 ].join('\n');
-await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.sgmodule'), shadowrocketModule);
+await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.sgmodule'), `${shadowrocketModule.trimEnd()}\n`);
 
-const shadowrocketMainConfig = [
+if (!privateProfile) {
+  const shadowrocketMainConfig = [
   '# Network Rules - Shadowrocket main configuration',
   '# Public rules only; nodes remain managed by Shadowrocket.',
   '',
   '[General]',
-  `update-url = ${targets.public_base_url}/shadowrocket/NetworkRules.conf`,
+  `update-url = ${rulesBaseUrl}/shadowrocket/NetworkRules.conf`,
   'skip-proxy = 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,127.0.0.0/8,localhost,*.local,captive.apple.com',
   'tun-excluded-routes = 10.0.0.0/8,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,192.168.0.0/16,224.0.0.0/4,255.255.255.255/32,ff02::fb/128',
   'dns-server = https://doh.pub/dns-query,https://dns.alidns.com/dns-query,223.5.5.5,119.29.29.29',
@@ -327,7 +351,7 @@ const shadowrocketMainConfig = [
   '',
   '[Rule]',
   '# Advertising must be rejected before China direct rules.',
-  `DOMAIN-SET,${targets.public_base_url}/shadowrocket/rules/geosite-category-ads-all-domain.list,REJECT`,
+  `DOMAIN-SET,${rulesBaseUrl}/shadowrocket/rules/geosite-category-ads-all-domain.list,REJECT`,
   '',
   '# Local networks.',
   'IP-CIDR,10.0.0.0/8,DIRECT,no-resolve',
@@ -340,11 +364,12 @@ const shadowrocketMainConfig = [
   'IP-CIDR6,fe80::/10,DIRECT,no-resolve',
   '',
   '# China direct; everything else uses the selected proxy node.',
-  `DOMAIN-SET,${targets.public_base_url}/shadowrocket/rules/geosite-cn-domain.list,DIRECT`,
-  `RULE-SET,${targets.public_base_url}/shadowrocket/rules/geoip-cn.list,DIRECT`,
+  `DOMAIN-SET,${rulesBaseUrl}/shadowrocket/rules/geosite-cn-domain.list,DIRECT`,
+  `RULE-SET,${rulesBaseUrl}/shadowrocket/rules/geoip-cn.list,DIRECT`,
   'FINAL,PROXY',
   ''
-].join('\n');
-await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.conf'), shadowrocketMainConfig);
+  ].join('\n');
+  await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.conf'), shadowrocketMainConfig);
+}
 
-console.log(`已生成 sing-box ${singRuleSets.length} 个规则集、Stash ${stashProviders.length} 个 provider、Shadowrocket ${shadowrocketSets.length} 个规则集、1 个主配置和 1 个安全模块`);
+console.log(`已生成 ${profile} 配置：sing-box ${singRuleSets.length} 个规则集、Stash ${stashOverrideProviders.length} 个默认 provider、Shadowrocket ${shadowrocketSets.length} 个规则集`);

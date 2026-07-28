@@ -29,7 +29,7 @@ test('a scalar source regex is counted and emitted as one complete rule', async 
 test('remote sing-box rules use stable public URLs', async () => {
   const route = await readJson(resolve(rootDir, 'sing-box/route.remote.fragment.json'));
   assert.ok(route.route.rule_set.every((ruleSet) => ruleSet.type === 'remote'));
-  assert.ok(route.route.rule_set.every((ruleSet) => ruleSet.url.startsWith('https://raw.githubusercontent.com/inderiva/network-rules-dist/main/')));
+  assert.ok(route.route.rule_set.every((ruleSet) => ruleSet.url.startsWith('https://raw.githubusercontent.com/inderiva/network-rules-dist/release/')));
 });
 
 test('Shadowrocket module is a self-contained advertising-only module', async () => {
@@ -91,7 +91,17 @@ test('public metadata is neutral', async () => {
   assert.match(readme, /仓库仅发布公开上游生成的数据，不包含私有覆盖配置/);
   assert.match(module, /#!desc=仅添加广告拒绝规则，不修改直连、代理或最终策略/);
   assert.match(config, /Public rules only; nodes remain managed by Shadowrocket/);
-  assert.match(override, /desc: '由公开上游生成的广告拦截与国内直连规则'/);
+  assert.match(override, /desc: '仅添加广告拦截，不修改直连、代理或最终策略'/);
+});
+
+test('Stash default override is advertising-only and uses a fresh cache namespace', async () => {
+  const override = await readFile(resolve(rootDir, 'stash/NetworkRules.stoverride'), 'utf8');
+  const rules = override.split('\n').filter((line) => line.trimStart().startsWith('- RULE-SET,'));
+  assert.ok(rules.length > 0);
+  assert.ok(rules.every((line) => /geosite-category-ads-all-.*?,REJECT$/.test(line)));
+  assert.doesNotMatch(override, /geosite-cn|geoip-cn|,DIRECT$|,PROXY$/m);
+  assert.match(override, /path: \.\/rules\/network-rules-dist-v2\//);
+  assert.match(override, /\/network-rules-dist\/release\/stash\/rules\//);
 });
 
 test('sing-box fragments do not replace unrelated host policy', async () => {

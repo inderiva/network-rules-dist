@@ -23,3 +23,30 @@ jobs:
       - run: npm test
       - name: Ensure generated files are current
         run: git diff --exit-code
+
+  merge-automated-update:
+    needs: validate
+    if: github.event_name == 'workflow_dispatch' && startsWith(github.ref_name, 'automation/update-public-rules')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: write
+    steps:
+      - name: Merge validated update and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pr_number="$(gh pr list \
+            --repo "$GITHUB_REPOSITORY" \
+            --head "$GITHUB_REPOSITORY_OWNER:${GITHUB_REF_NAME}" \
+            --base main \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')"
+          if [ -z "$pr_number" ]; then
+            echo 'No open automated update PR found.' >&2
+            exit 1
+          fi
+          gh pr merge "$pr_number" --repo "$GITHUB_REPOSITORY" --squash --delete-branch
+          gh workflow run publish.yml --repo "$GITHUB_REPOSITORY" --ref main
