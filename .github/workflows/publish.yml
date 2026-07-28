@@ -36,4 +36,4 @@ jobs:
       - name: Ensure generated files are current
         run: git diff --exit-code
       - name: Publish validated commit
-        run: git push origin HEAD:release
+        run: git push origin HEAD:refs/heads/release
