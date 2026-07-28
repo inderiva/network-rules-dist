@@ -6,28 +6,15 @@
 
 ### Shadowrocket
 
-建议先只安装广告模块；现有订阅没有国内直连规则时，再选择国内直连或组合模块：
+只需要安装一个模块：
 
 ```text
-# 推荐：仅广告拦截
-https://raw.githubusercontent.com/inderiva/network-rules-dist/main/shadowrocket/Advertising.sgmodule
-
-# 可选：仅国内直连
-https://raw.githubusercontent.com/inderiva/network-rules-dist/main/shadowrocket/ChinaDirect.sgmodule
-
-# 可选：广告拦截 + 国内直连
 https://raw.githubusercontent.com/inderiva/network-rules-dist/main/shadowrocket/NetworkRules.sgmodule
 ```
 
-模块本身只包含少量 `DOMAIN-SET`/`RULE-SET` 远程引用，实际规则位于 `shadowrocket/rules/`，不会再把上万条规则直接内嵌到模块。组合模块添加以下顺序的规则，不包含 `FINAL`，因此不会覆盖现有配置的最终策略：
+默认模块是自包含的广告拒绝模块，只添加 `REJECT` 规则，不包含国内直连、国内 IP、`FINAL`、DNS 或代理策略，也不再嵌套下载其他远程规则集，因此不会抢在现有配置前面改变分流。Shadowrocket 不兼容的 `DOMAIN-REGEX` 会安全省略；Stash 和 sing-box 产物仍完整保留。
 
-1. 广告拒绝
-2. 国内域名直连
-3. 国内 IP 直连
-
-域名使用 Shadowrocket 原生 `DOMAIN-SET` 格式，IP 使用带 `no-resolve` 的 `RULE-SET` 格式。模块仍不写入不兼容的 `DOMAIN-REGEX`，省略数量会显示在模块顶部；Stash 和 sing-box 产物完整保留。
-
-多数完整订阅本身已有国内直连，重复启用没有收益。如果启用组合模块后发现国内网站异常，请改为只使用 `Advertising Rules`，便于分开诊断和回滚。
+`shadowrocket/rules/` 继续提供独立 `DOMAIN-SET`/`RULE-SET` 数据文件，供需要自己编排完整主配置的用户使用，但默认模块不会自动加载它们。
 
 ### Stash
 

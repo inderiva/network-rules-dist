@@ -100,6 +100,16 @@ function shadowrocketProvider(name, type, values) {
   ].join('\n');
 }
 
+function shadowrocketInlineRules(rules, action, proxyPolicy) {
+  const target = clientPolicy(action, proxyPolicy);
+  return uniqueSorted([
+    ...rules.domain.map((value) => `DOMAIN,${value},${target}`),
+    ...rules.domain_suffix.map((value) => `DOMAIN-SUFFIX,${value},${target}`),
+    ...(rules.domain_keyword ?? []).map((value) => `DOMAIN-KEYWORD,${value},${target}`),
+    ...rules.ip_cidr.map((value) => `${value.includes(':') ? 'IP-CIDR6' : 'IP-CIDR'},${value},${target},no-resolve`)
+  ]);
+}
+
 const custom = await readJson(resolve(rootDir, 'src/rules.json'));
 const targets = await readJson(resolve(rootDir, 'src/targets.json'));
 validateCustom(custom);
@@ -277,65 +287,22 @@ await addShadowrocketSet(
   '国内直连'
 );
 
-function shadowrocketReferences(sets) {
-  const output = [];
-  let previousSection;
-  for (const item of sets) {
-    if (item.section !== previousSection) {
-      if (output.length) output.push('');
-      output.push(`# ${item.section}`);
-      previousSection = item.section;
-    }
-    output.push(
-      `${item.type},${targets.public_base_url}/shadowrocket/${item.relative},${clientPolicy(item.action, targets.shadowrocket.proxy_policy)}`
-    );
-  }
-  return output;
-}
+const shadowrocketRejectRules = uniqueSorted([
+  ...shadowrocketInlineRules(custom.groups.reject, 'reject', targets.shadowrocket.proxy_policy),
+  ...shadowrocketInlineRules(upstream.ads, 'reject', targets.shadowrocket.proxy_policy)
+]);
+const omittedRegex = custom.groups.reject.domain_regex.length + upstream.ads.domain_regex.length;
+const shadowrocketModule = [
+  `#!url=${targets.public_base_url}/shadowrocket/NetworkRules.sgmodule`,
+  '#!name=Network Rules (Ads Only)',
+  '#!desc=仅添加广告拒绝规则，不修改直连、代理或最终策略',
+  '#!homepage=https://github.com/inderiva/network-rules-dist',
+  '',
+  '[Rule]',
+  ...(omittedRegex ? [`# 省略 ${omittedRegex} 条 Shadowrocket 不兼容的 DOMAIN-REGEX。`, ''] : []),
+  ...shadowrocketRejectRules,
+  ''
+].join('\n');
+await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.sgmodule'), shadowrocketModule);
 
-const omittedRegex = actions.reduce((count, action) => count + custom.groups[action].domain_regex.length, 0)
-  + upstream.ads.domain_regex.length + upstream.cnDomain.domain_regex.length;
-function compatibilityNote(count) {
-  return count ? [`# 省略 ${count} 条 Shadowrocket 不兼容的 DOMAIN-REGEX。`, ''] : [];
-}
-
-async function writeShadowrocketModule(filename, name, description, sets, omittedRegexCount) {
-  const module = [
-    `#!url=${targets.public_base_url}/shadowrocket/${filename}`,
-    `#!name=${name}`,
-    `#!desc=${description}`,
-    '#!homepage=https://github.com/inderiva/network-rules-dist',
-    '',
-    '[Rule]',
-    ...compatibilityNote(omittedRegexCount),
-    ...shadowrocketReferences(sets),
-    ''
-  ].join('\n');
-  await writeAtomic(resolve(shadowrocketDir, filename), module);
-}
-
-const advertisingSets = shadowrocketSets.filter((item) => item.action === 'reject');
-const chinaDirectSets = shadowrocketSets.filter((item) => item.name === 'geosite-cn-domain' || item.name === 'geosite-cn-rules' || item.name === 'geoip-cn');
-await writeShadowrocketModule(
-  'Advertising.sgmodule',
-  'Advertising Rules',
-  '仅启用公开广告拦截规则',
-  advertisingSets,
-  custom.groups.reject.domain_regex.length + upstream.ads.domain_regex.length
-);
-await writeShadowrocketModule(
-  'ChinaDirect.sgmodule',
-  'China Direct Rules',
-  '仅启用国内域名与 IP 直连规则',
-  chinaDirectSets,
-  upstream.cnDomain.domain_regex.length
-);
-await writeShadowrocketModule(
-  'NetworkRules.sgmodule',
-  'Network Rules',
-  '轻量引用广告拦截与国内直连规则集',
-  shadowrocketSets,
-  omittedRegex
-);
-
-console.log(`已生成 sing-box ${singRuleSets.length} 个规则集、Stash ${stashProviders.length} 个 provider、Shadowrocket ${shadowrocketSets.length} 个远程规则集`);
+console.log(`已生成 sing-box ${singRuleSets.length} 个规则集、Stash ${stashProviders.length} 个 provider、Shadowrocket ${shadowrocketSets.length} 个规则集和 1 个安全模块`);

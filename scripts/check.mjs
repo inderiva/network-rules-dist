@@ -6,8 +6,6 @@ import { ensureSingBox } from './sing-box.mjs';
 
 const required = [
   'shadowrocket/NetworkRules.sgmodule',
-  'shadowrocket/Advertising.sgmodule',
-  'shadowrocket/ChinaDirect.sgmodule',
   'shadowrocket/rules/geosite-category-ads-all-domain.list',
   'shadowrocket/rules/geosite-cn-domain.list',
   'shadowrocket/rules/geoip-cn.list',
@@ -56,13 +54,15 @@ try {
 const shadowrocket = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
 if (!shadowrocket.includes(`${targets.public_base_url}/shadowrocket/NetworkRules.sgmodule`)) throw new Error('Shadowrocket 缺少公开更新 URL');
 if (/^DOMAIN-REGEX,/m.test(shadowrocket)) throw new Error('Shadowrocket 包含不兼容的 DOMAIN-REGEX');
-if (/^(DOMAIN|DOMAIN-SUFFIX|DOMAIN-KEYWORD|IP-CIDR|IP-CIDR6),/m.test(shadowrocket)) {
-  throw new Error('Shadowrocket 模块不应内嵌大规则集');
+if (/^(DOMAIN-SET|RULE-SET),/m.test(shadowrocket)) throw new Error('Shadowrocket 默认模块不应嵌套远程规则集');
+if (/,DIRECT(?:,|$)/m.test(shadowrocket) || /geosite-cn|geoip-cn/.test(shadowrocket)) {
+  throw new Error('Shadowrocket 默认模块覆盖了现有路由策略');
 }
-if (!shadowrocket.includes('DOMAIN-SET,') || !shadowrocket.includes('RULE-SET,')) {
-  throw new Error('Shadowrocket 模块未引用远程规则集');
+const inlineShadowrocketRules = shadowrocket.split('\n').filter((line) => /^(DOMAIN|DOMAIN-SUFFIX|DOMAIN-KEYWORD|IP-CIDR|IP-CIDR6),/.test(line));
+if (!inlineShadowrocketRules.length || inlineShadowrocketRules.some((line) => !/,REJECT(?:,no-resolve)?$/.test(line))) {
+  throw new Error('Shadowrocket 默认模块必须只包含广告拒绝规则');
 }
-if (Buffer.byteLength(shadowrocket) > 5000) throw new Error('Shadowrocket 模块体积异常');
+if (Buffer.byteLength(shadowrocket) > 100000) throw new Error('Shadowrocket 默认模块体积异常');
 const shadowrocketAds = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-category-ads-all-domain.list'), 'utf8');
 const shadowrocketCn = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-cn-domain.list'), 'utf8');
 const shadowrocketIp = await readFile(resolve(rootDir, 'shadowrocket/rules/geoip-cn.list'), 'utf8');
