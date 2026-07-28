@@ -1,14 +1,4 @@
-# Shadowrocket 输出省略 38 条 DOMAIN-REGEX；sing-box 与 Stash 完整保留。
-
-# 抖音等国内服务优先直连
-DOMAIN-SUFFIX,amemv.com,DIRECT
-DOMAIN-SUFFIX,byteimg.com,DIRECT
-DOMAIN-SUFFIX,douyincdn.com,DIRECT
-DOMAIN-SUFFIX,douyinpic.com,DIRECT
-DOMAIN-SUFFIX,douyinvod.com,DIRECT
-DOMAIN-SUFFIX,iesdouyin.com,DIRECT
-DOMAIN-SUFFIX,pstatp.com,DIRECT
-DOMAIN-SUFFIX,snssdk.com,DIRECT
+# Shadowrocket 输出省略 9 条 DOMAIN-REGEX；sing-box 与 Stash 完整保留。
 
 # 广告拒绝
 DOMAIN,1l-hit.mail.ru,REJECT

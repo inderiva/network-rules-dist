@@ -68,10 +68,61 @@ export function uniqueSorted(values) {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))].sort();
 }
 
+export function ruleValues(value, context = 'rule field') {
+  if (value === undefined || value === null) return [];
+  const values = Array.isArray(value) ? value : [value];
+  if (values.some((item) => typeof item !== 'string')) throw new Error(`${context} 必须是字符串或字符串数组`);
+  return values;
+}
+
 export function countRuleEntries(source) {
   const fields = ['domain', 'domain_suffix', 'domain_keyword', 'domain_regex', 'ip_cidr'];
   return source.rules.reduce(
-    (total, rule) => total + fields.reduce((sum, field) => sum + (rule[field]?.length ?? 0), 0),
+    (total, rule) => total + fields.reduce((sum, field) => sum + ruleValues(rule[field], field).length, 0),
     0
   );
+}
+
+export function validateRuleSetSafety(source, options) {
+  if (!source || !Array.isArray(source.rules)) throw new Error(`${options.tag} 不是有效的规则集源`);
+  const allowedFields = new Set(options.allowedFields);
+  for (const [index, rule] of source.rules.entries()) {
+    for (const field of Object.keys(rule)) {
+      if (!allowedFields.has(field)) throw new Error(`${options.tag} 出现未审核字段 rules[${index}].${field}`);
+      for (const value of ruleValues(rule[field], `${options.tag}.${field}`)) {
+        if (!value.trim() || /[\r\n\0]/.test(value)) throw new Error(`${options.tag}.${field} 包含无效值`);
+        if (field === 'domain_suffix' && options.rejectSingleLabelSuffix && !value.includes('.')) {
+          throw new Error(`${options.tag} 出现高风险顶级后缀：${value}`);
+        }
+        if (field === 'domain_regex' && ['.', '.*', '^.*$', '^.+$'].includes(value)) {
+          throw new Error(`${options.tag} 出现全匹配正则：${value}`);
+        }
+        if (field === 'domain_regex' && options.rejectUniversalRegex) {
+          try {
+            const expression = new RegExp(value);
+            const probes = ['example.com', 'service.invalid', 'a.b.example'];
+            if (probes.every((probe) => expression.test(probe))) {
+              throw new Error(`${options.tag} 出现疑似全匹配正则：${value}`);
+            }
+          } catch (error) {
+            if (error.message.startsWith(`${options.tag} 出现`)) throw error;
+          }
+        }
+        if (field === 'ip_cidr' && ['0.0.0.0/0', '::/0'].includes(value)) {
+          throw new Error(`${options.tag} 出现全网 CIDR：${value}`);
+        }
+      }
+    }
+  }
+  const entries = countRuleEntries(source);
+  if (entries < options.minimumEntries || entries > options.maximumEntries) {
+    throw new Error(`${options.tag} 数量 ${entries} 超出安全范围 ${options.minimumEntries}-${options.maximumEntries}`);
+  }
+  if (options.previousEntries) {
+    const changeRatio = Math.abs(entries - options.previousEntries) / options.previousEntries;
+    if (changeRatio > options.maximumChangeRatio) {
+      throw new Error(`${options.tag} 数量相对上次变化 ${(changeRatio * 100).toFixed(1)}%，超过安全阈值`);
+    }
+  }
+  return entries;
 }

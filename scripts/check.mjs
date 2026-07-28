@@ -16,26 +16,10 @@ const required = [
 for (const path of required) await readFile(resolve(rootDir, path));
 
 const publicCustom = await readJson(resolve(rootDir, 'src/rules.json'));
-const allowedPublicSuffixes = [
-  'amemv.com',
-  'byteimg.com',
-  'douyincdn.com',
-  'douyinpic.com',
-  'douyinvod.com',
-  'iesdouyin.com',
-  'pstatp.com',
-  'snssdk.com'
-];
-if (JSON.stringify(publicCustom.groups.direct.domain_suffix) !== JSON.stringify(allowedPublicSuffixes)) {
-  throw new Error('公开自定义后缀不在审核白名单中');
-}
 for (const action of ['reject', 'direct', 'proxy']) {
-  for (const field of ['domain', 'domain_regex', 'ip_cidr']) {
-    if (publicCustom.groups[action][field].length) throw new Error(`公开源 ${action}.${field} 必须经过单独审核`);
+  for (const field of ['domain', 'domain_suffix', 'domain_regex', 'ip_cidr']) {
+    if (publicCustom.groups[action][field].length) throw new Error(`公开源不允许产品专用规则：${action}.${field}`);
   }
-}
-if (publicCustom.groups.reject.domain_suffix.length || publicCustom.groups.proxy.domain_suffix.length) {
-  throw new Error('公开 reject/proxy 自定义后缀必须经过单独审核');
 }
 
 const targets = await readJson(resolve(rootDir, 'src/targets.json'));
@@ -66,17 +50,20 @@ try {
 
 const shadowrocket = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
 if (!shadowrocket.includes(`${targets.public_base_url}/shadowrocket/NetworkRules.sgmodule`)) throw new Error('Shadowrocket 缺少公开更新 URL');
-if (!shadowrocket.includes('DOMAIN-SUFFIX,douyinvod.com,DIRECT')) throw new Error('Shadowrocket 缺少抖音直连规则');
 if (/^DOMAIN-REGEX,/m.test(shadowrocket)) throw new Error('Shadowrocket 包含不兼容的 DOMAIN-REGEX');
 
 const stash = await readFile(resolve(rootDir, 'stash/NetworkRules.stoverride'), 'utf8');
 if (!stash.includes('behavior: domain') || !stash.includes('behavior: ipcidr')) throw new Error('Stash 未使用优化 provider');
 if (!stash.includes(`${targets.public_base_url}/stash/rules/`)) throw new Error('Stash provider 缺少公开 URL');
 if (stash.indexOf('geosite-category-ads-all-domain') >= stash.lastIndexOf('geosite-cn-domain')) throw new Error('Stash 规则顺序错误');
+const stashRegex = await readFile(resolve(rootDir, 'stash/rules/geosite-category-ads-all-classical.yaml'), 'utf8');
+if (stashRegex.split('\n').filter((line) => line.includes('DOMAIN-REGEX,')).length !== 1) {
+  throw new Error('Stash 未完整保留标量 DOMAIN-REGEX');
+}
 
 const manifest = await readJson(resolve(rootDir, 'vendor/manifest.json'));
 const counts = Object.fromEntries(manifest.sources.map((source) => [source.tag, source.entries]));
 if (counts['geosite-cn'] < 1000 || counts['geosite-category-ads-all'] < 500 || counts['geoip-cn'] < 5500) {
   throw new Error('上游规则数量低于安全阈值');
 }
-console.log('检查通过：无内部信息、规则顺序正确、公开 URL 完整、sing-box 配置有效');
+console.log('检查通过：公共源中性、规则顺序正确、公开 URL 完整、sing-box 配置有效');

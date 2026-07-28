@@ -5,6 +5,7 @@ import {
   readJson,
   resetDirectory,
   rootDir,
+  ruleValues,
   uniqueSorted,
   writeAtomic,
   writeJson
@@ -21,7 +22,9 @@ function emptyRules() {
 function flatten(source) {
   const output = { ...emptyRules(), domain_keyword: [] };
   for (const rule of source.rules) {
-    for (const field of [...fields, 'domain_keyword']) output[field].push(...(rule[field] ?? []));
+    for (const field of [...fields, 'domain_keyword']) {
+      output[field].push(...ruleValues(rule[field], field));
+    }
   }
   for (const field of Object.keys(output)) output[field] = uniqueSorted(output[field]);
   return output;
@@ -121,7 +124,6 @@ const routeRules = [
       : { outbound: item.action === 'direct' ? targets.sing_box.direct_outbound : targets.sing_box.proxy_outbound })
   })),
   { rule_set: 'geosite-category-ads-all', action: 'reject' },
-  { ip_is_private: true, outbound: targets.sing_box.direct_outbound },
   { rule_set: 'geosite-cn', outbound: targets.sing_box.direct_outbound },
   { rule_set: 'geoip-cn', outbound: targets.sing_box.direct_outbound }
 ];
@@ -133,16 +135,13 @@ const remoteRuleSets = singRuleSets.map((item) => ({
   tag: item.tag,
   format: 'binary',
   url: `${targets.public_base_url}/sing-box/rules/${item.tag}.srs`,
-  download_detour: targets.sing_box.direct_outbound,
   update_interval: '1d'
 }));
 function routeFragment(ruleSets) {
   return {
     route: {
       rule_set: ruleSets,
-      rules: routeRules,
-      final: targets.sing_box.proxy_outbound,
-      auto_detect_interface: true
+      rules: routeRules
     }
   };
 }
@@ -153,9 +152,7 @@ await writeJson(resolve(singBoxDir, 'dns.fragment.json'), {
     rules: [
       ...(hasRules(custom.groups.direct) ? [{ rule_set: 'custom-direct', server: targets.sing_box.direct_dns_server }] : []),
       { rule_set: 'geosite-cn', server: targets.sing_box.direct_dns_server }
-    ],
-    final: targets.sing_box.remote_dns_server,
-    strategy: 'ipv4_only'
+    ]
   }
 });
 
@@ -181,7 +178,7 @@ await addStashProvider('geosite-cn-classical', 'classical', classicalProvider(up
 await addStashProvider('geoip-cn', 'ipcidr', upstream.cnIp.ip_cidr, 'direct');
 const stashOverride = [
   "name: 'Network Rules'",
-  "desc: '公开维护的广告拦截、国内直连和抖音直连规则'",
+  "desc: '由公开上游生成的广告拦截与国内直连规则'",
   `homepage: '${targets.public_base_url.replace('raw.githubusercontent.com', 'github.com').replace('/main', '')}'`,
   'rule-providers:',
   ...stashProviders.flatMap(({ name, behavior, relative }) => [
@@ -202,7 +199,7 @@ const shadowrocketDir = resolve(rootDir, 'shadowrocket');
 await resetDirectory(shadowrocketDir);
 const shadowSections = [
   ['自定义拒绝', shadowrocketLines(custom.groups.reject, 'reject', targets.shadowrocket.proxy_policy)],
-  ['抖音等国内服务优先直连', shadowrocketLines(custom.groups.direct, 'direct', targets.shadowrocket.proxy_policy)],
+  ['自定义直连', shadowrocketLines(custom.groups.direct, 'direct', targets.shadowrocket.proxy_policy)],
   ['自定义代理', shadowrocketLines(custom.groups.proxy, 'proxy', targets.shadowrocket.proxy_policy)],
   ['广告拒绝', shadowrocketLines(upstream.ads, 'reject', targets.shadowrocket.proxy_policy)],
   ['国内域名直连', shadowrocketLines(upstream.cnDomain, 'direct', targets.shadowrocket.proxy_policy)],
@@ -219,8 +216,7 @@ await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.list'), `${list}\n`);
 const module = [
   `#!url=${targets.public_base_url}/shadowrocket/NetworkRules.sgmodule`,
   '#!name=Network Rules',
-  '#!desc=公开维护的广告拦截、国内直连和抖音直连规则',
-  '#!author=inderiva',
+  '#!desc=由公开上游生成的广告拦截与国内直连规则',
   '#!homepage=https://github.com/inderiva/network-rules-dist',
   '',
   '[Rule]',

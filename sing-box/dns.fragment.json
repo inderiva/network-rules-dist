@@ -2,15 +2,9 @@
   "dns": {
     "rules": [
       {
-        "rule_set": "custom-direct",
-        "server": "dns-direct"
-      },
-      {
         "rule_set": "geosite-cn",
         "server": "dns-direct"
       }
-    ],
-    "final": "dns-remote",
-    "strategy": "ipv4_only"
+    ]
   }
 }

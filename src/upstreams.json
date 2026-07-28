@@ -10,12 +10,16 @@
     "geosite_cn": {
       "tag": "geosite-cn",
       "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
-      "minimum_rules": 1000
+      "minimum_rules": 1000,
+      "maximum_rules": 15000,
+      "maximum_change_ratio": 0.25
     },
     "geosite_ads": {
       "tag": "geosite-category-ads-all",
       "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-ads-all.srs",
-      "minimum_rules": 500
+      "minimum_rules": 500,
+      "maximum_rules": 3000,
+      "maximum_change_ratio": 0.25
     },
     "geoip_cn": {
       "tag": "geoip-cn",
@@ -23,6 +27,9 @@
       "ipv6_url": "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china6.txt",
       "minimum_ipv4": 4000,
       "minimum_ipv6": 1500,
+      "maximum_ipv4": 7000,
+      "maximum_ipv6": 3000,
+      "maximum_change_ratio": 0.25,
       "sentinel": "8.152.0.0/13"
     }
   }

@@ -2,36 +2,32 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import test from 'node:test';
-import { readJson, rootDir } from '../scripts/lib.mjs';
+import { countRuleEntries, readJson, rootDir, validateRuleSetSafety } from '../scripts/lib.mjs';
 
-test('public custom source is restricted to reviewed suffixes', async () => {
+test('public custom source contains no product-specific overrides', async () => {
   const source = await readJson(resolve(rootDir, 'src/rules.json'));
-  assert.deepEqual(source.groups.direct.domain_suffix, [
-    'amemv.com',
-    'byteimg.com',
-    'douyincdn.com',
-    'douyinpic.com',
-    'douyinvod.com',
-    'iesdouyin.com',
-    'pstatp.com',
-    'snssdk.com'
-  ]);
-  assert.deepEqual(source.groups.direct.ip_cidr, []);
+  for (const group of Object.values(source.groups)) {
+    for (const values of Object.values(group)) assert.deepEqual(values, []);
+  }
 });
 
 test('ads are evaluated before China direct rules', async () => {
   const route = await readJson(resolve(rootDir, 'sing-box/route.local.fragment.json'));
   const names = route.route.rules.map((rule) => rule.rule_set).filter(Boolean);
   assert.ok(names.indexOf('geosite-category-ads-all') < names.indexOf('geosite-cn'));
+  const module = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
+  const reject = module.indexOf('DOMAIN,p3-ad-sign.byteimg.com,REJECT');
+  const direct = module.indexOf('DOMAIN,p3-ad-sign.byteimg.com,DIRECT');
+  assert.ok(reject >= 0 && direct >= 0 && reject < direct);
 });
 
-test('all clients contain the Douyin direct exception', async () => {
-  const shadowrocket = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
-  const stash = await readFile(resolve(rootDir, 'stash/rules/custom-direct-domain.yaml'), 'utf8');
-  const singBox = await readJson(resolve(rootDir, 'sing-box/rules/custom-direct.json'));
-  assert.match(shadowrocket, /DOMAIN-SUFFIX,douyinvod\.com,DIRECT/);
-  assert.match(stash, /\+\.douyinvod\.com/);
-  assert.ok(singBox.rules[0].domain_suffix.includes('douyinvod.com'));
+test('a scalar source regex is counted and emitted as one complete rule', async () => {
+  assert.equal(countRuleEntries({ rules: [{ domain_regex: '^example\\.com$' }] }), 1);
+  const provider = await readFile(resolve(rootDir, 'stash/rules/geosite-category-ads-all-classical.yaml'), 'utf8');
+  const regexRules = provider.split('\n').filter((line) => line.includes('DOMAIN-REGEX,'));
+  assert.equal(regexRules.length, 1);
+  assert.match(regexRules[0], /\^speed\\\.\(coe\|open\)/);
+  assert.notEqual(regexRules[0], "  - 'DOMAIN-REGEX,.'");
 });
 
 test('remote sing-box rules use stable public URLs', async () => {
@@ -44,4 +40,50 @@ test('Shadowrocket output contains no DOMAIN-REGEX entries', async () => {
   const module = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
   assert.doesNotMatch(module, /^DOMAIN-REGEX,/m);
   assert.match(module, /省略 \d+ 条 DOMAIN-REGEX/);
+});
+
+test('public metadata is neutral', async () => {
+  const readme = await readFile(resolve(rootDir, 'README.md'), 'utf8');
+  const module = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
+  const override = await readFile(resolve(rootDir, 'stash/NetworkRules.stoverride'), 'utf8');
+  assert.match(readme, /仓库仅发布公开上游生成的数据，不包含私有覆盖配置/);
+  assert.match(module, /#!desc=由公开上游生成的广告拦截与国内直连规则/);
+  assert.match(override, /desc: '由公开上游生成的广告拦截与国内直连规则'/);
+});
+
+test('sing-box fragments do not replace unrelated host policy', async () => {
+  const route = await readJson(resolve(rootDir, 'sing-box/route.remote.fragment.json'));
+  const dns = await readJson(resolve(rootDir, 'sing-box/dns.fragment.json'));
+  assert.equal('final' in route.route, false);
+  assert.equal('auto_detect_interface' in route.route, false);
+  assert.equal(route.route.rules.some((rule) => rule.ip_is_private === true), false);
+  assert.equal(route.route.rule_set.some((ruleSet) => 'download_detour' in ruleSet), false);
+  assert.equal('final' in dns.dns, false);
+  assert.equal('strategy' in dns.dns, false);
+});
+
+test('upstream safety guard rejects broad or suddenly changed data', () => {
+  const base = {
+    allowedFields: ['domain_suffix'],
+    minimumEntries: 1,
+    maximumEntries: 10,
+    maximumChangeRatio: 0.25,
+    rejectSingleLabelSuffix: true
+  };
+  assert.throws(() => validateRuleSetSafety(
+    { rules: [{ domain_suffix: 'com' }] },
+    { ...base, tag: 'ads' }
+  ), /高风险顶级后缀/);
+  assert.throws(() => validateRuleSetSafety(
+    { rules: [{ domain_regex: '^.*' }] },
+    { ...base, tag: 'ads', allowedFields: ['domain_regex'], rejectUniversalRegex: true }
+  ), /疑似全匹配正则/);
+  assert.throws(() => validateRuleSetSafety(
+    { rules: [{ domain_suffix: ['a.example', 'b.example'] }] },
+    { ...base, tag: 'ads', previousEntries: 1 }
+  ), /超过安全阈值/);
+  assert.throws(() => validateRuleSetSafety(
+    { rules: [{ ip_cidr: '0.0.0.0\/0' }] },
+    { ...base, tag: 'geoip', allowedFields: ['ip_cidr'], rejectSingleLabelSuffix: false }
+  ), /全网 CIDR/);
 });

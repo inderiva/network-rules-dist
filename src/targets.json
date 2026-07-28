@@ -9,7 +9,6 @@
   "sing_box": {
     "direct_outbound": "direct",
     "proxy_outbound": "auto",
-    "direct_dns_server": "dns-direct",
-    "remote_dns_server": "dns-remote"
+    "direct_dns_server": "dns-direct"
   }
 }

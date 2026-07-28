@@ -3,12 +3,6 @@
     "rule_set": [
       {
         "type": "local",
-        "tag": "custom-direct",
-        "format": "binary",
-        "path": "./rules/custom-direct.srs"
-      },
-      {
-        "type": "local",
         "tag": "geosite-category-ads-all",
         "format": "binary",
         "path": "./rules/geosite-category-ads-all.srs"
@@ -28,16 +22,8 @@
     ],
     "rules": [
       {
-        "rule_set": "custom-direct",
-        "outbound": "direct"
-      },
-      {
         "rule_set": "geosite-category-ads-all",
         "action": "reject"
-      },
-      {
-        "ip_is_private": true,
-        "outbound": "direct"
       },
       {
         "rule_set": "geosite-cn",
@@ -47,8 +33,6 @@
         "rule_set": "geoip-cn",
         "outbound": "direct"
       }
-    ],
-    "final": "auto",
-    "auto_detect_interface": true
+    ]
   }
 }

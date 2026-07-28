@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-28T05:07:34.444Z",
+  "updated_at": "2026-07-28T05:23:42.814Z",
   "sing_box_version": "1.13.4",
   "sources": [
     {
@@ -12,7 +12,7 @@
       "tag": "geosite-category-ads-all",
       "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-ads-all.srs",
       "sha256": "ca44c97fce76f4f889e08bbc28e80d497a43239328e09f760129844057a2780a",
-      "entries": 967
+      "entries": 902
     },
     {
       "tag": "geoip-cn",

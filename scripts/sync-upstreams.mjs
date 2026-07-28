@@ -1,8 +1,8 @@
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
+import { isIP } from 'node:net';
 import {
-  countRuleEntries,
   execFileAsync,
   fetchBuffer,
   readJson,
@@ -10,6 +10,7 @@ import {
   rootDir,
   sha256,
   uniqueSorted,
+  validateRuleSetSafety,
   writeJson
 } from './lib.mjs';
 import { ensureSingBox } from './sing-box.mjs';
@@ -19,7 +20,13 @@ function cidrLines(buffer) {
 }
 
 function validateCidrs(values, family) {
-  const invalid = values.find((value) => !value.includes('/') || (family === 4 ? value.includes(':') : !value.includes(':')));
+  const invalid = values.find((value) => {
+    const separator = value.lastIndexOf('/');
+    if (separator < 1) return true;
+    const address = value.slice(0, separator);
+    const prefix = Number(value.slice(separator + 1));
+    return isIP(address) !== family || !Number.isInteger(prefix) || prefix < 0 || prefix > (family === 4 ? 32 : 128);
+  });
   if (invalid) throw new Error(`无效 IPv${family} CIDR：${invalid}`);
 }
 
@@ -28,6 +35,11 @@ const singBox = await ensureSingBox();
 const temporary = await mkdtemp(join(tmpdir(), 'network-rules-dist-sync-'));
 const vendorDir = resolve(rootDir, 'vendor/source');
 const manifestPath = resolve(rootDir, 'vendor/manifest.json');
+const previous = await readJsonIfPresent(manifestPath);
+
+function previousEntries(tag) {
+  return previous?.sources?.find((source) => source.tag === tag)?.entries;
+}
 
 try {
   const sourceRecords = [];
@@ -39,10 +51,16 @@ try {
     await writeFile(srsPath, srs);
     await execFileAsync(singBox, ['rule-set', 'decompile', '--output', jsonPath, srsPath]);
     const source = await readJson(jsonPath);
-    const entries = countRuleEntries(source);
-    if (entries < config.minimum_rules) {
-      throw new Error(`${config.tag} 只有 ${entries} 条，低于安全阈值 ${config.minimum_rules}`);
-    }
+    const entries = validateRuleSetSafety(source, {
+      tag: config.tag,
+      allowedFields: ['domain', 'domain_suffix', 'domain_regex'],
+      minimumEntries: config.minimum_rules,
+      maximumEntries: config.maximum_rules,
+      previousEntries: previousEntries(config.tag),
+      maximumChangeRatio: config.maximum_change_ratio,
+      rejectSingleLabelSuffix: key === 'geosite_ads',
+      rejectUniversalRegex: key === 'geosite_ads'
+    });
     await writeJson(resolve(vendorDir, `${config.tag}.json`), source);
     sourceRecords.push({ tag: config.tag, url: config.url, sha256: sha256(srs), entries });
   }
@@ -56,11 +74,21 @@ try {
   const ipv6 = cidrLines(ipv6Buffer);
   validateCidrs(ipv4, 4);
   validateCidrs(ipv6, 6);
-  if (ipv4.length < geoip.minimum_ipv4 || ipv6.length < geoip.minimum_ipv6) {
+  if (ipv4.length < geoip.minimum_ipv4 || ipv4.length > geoip.maximum_ipv4
+    || ipv6.length < geoip.minimum_ipv6 || ipv6.length > geoip.maximum_ipv6) {
     throw new Error(`中国 IP 数量异常：IPv4=${ipv4.length}, IPv6=${ipv6.length}`);
   }
   if (!ipv4.includes(geoip.sentinel)) throw new Error(`中国 IP 缺少哨兵网段 ${geoip.sentinel}`);
   const geoipSource = { version: 3, rules: [{ ip_cidr: [...ipv4, ...ipv6] }] };
+  validateRuleSetSafety(geoipSource, {
+    tag: geoip.tag,
+    allowedFields: ['ip_cidr'],
+    minimumEntries: geoip.minimum_ipv4 + geoip.minimum_ipv6,
+    maximumEntries: geoip.maximum_ipv4 + geoip.maximum_ipv6,
+    previousEntries: previousEntries(geoip.tag),
+    maximumChangeRatio: geoip.maximum_change_ratio,
+    rejectSingleLabelSuffix: false
+  });
   const geoipJson = resolve(vendorDir, `${geoip.tag}.json`);
   await writeJson(geoipJson, geoipSource);
   await execFileAsync(singBox, ['rule-set', 'compile', '--output', join(temporary, `${geoip.tag}.srs`), geoipJson]);
@@ -73,7 +101,6 @@ try {
     ipv6: ipv6.length
   });
 
-  const previous = await readJsonIfPresent(manifestPath);
   const stableManifest = { sing_box_version: upstreams.sing_box.version, sources: sourceRecords };
   const unchanged = previous && JSON.stringify({
     sing_box_version: previous.sing_box_version,
