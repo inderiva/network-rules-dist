@@ -16,8 +16,8 @@ test('ads are evaluated before China direct rules', async () => {
   const names = route.route.rules.map((rule) => rule.rule_set).filter(Boolean);
   assert.ok(names.indexOf('geosite-category-ads-all') < names.indexOf('geosite-cn'));
   const module = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
-  const reject = module.indexOf('DOMAIN,p3-ad-sign.byteimg.com,REJECT');
-  const direct = module.indexOf('DOMAIN,p3-ad-sign.byteimg.com,DIRECT');
+  const reject = module.indexOf('/geosite-category-ads-all-domain.list,REJECT');
+  const direct = module.indexOf('/geosite-cn-domain.list,DIRECT');
   assert.ok(reject >= 0 && direct >= 0 && reject < direct);
 });
 
@@ -36,10 +36,34 @@ test('remote sing-box rules use stable public URLs', async () => {
   assert.ok(route.route.rule_set.every((ruleSet) => ruleSet.url.startsWith('https://raw.githubusercontent.com/inderiva/network-rules-dist/main/')));
 });
 
-test('Shadowrocket output contains no DOMAIN-REGEX entries', async () => {
+test('Shadowrocket module is a small remote rule-set index', async () => {
   const module = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
   assert.doesNotMatch(module, /^DOMAIN-REGEX,/m);
-  assert.match(module, /省略 \d+ 条 DOMAIN-REGEX/);
+  assert.doesNotMatch(module, /^(DOMAIN|DOMAIN-SUFFIX|DOMAIN-KEYWORD|IP-CIDR|IP-CIDR6),/m);
+  assert.match(module, /省略 \d+ 条 Shadowrocket 不兼容的 DOMAIN-REGEX/);
+  assert.match(module, /^DOMAIN-SET,https:\/\/raw\.githubusercontent\.com\//m);
+  assert.match(module, /^RULE-SET,https:\/\/raw\.githubusercontent\.com\//m);
+  assert.ok(Buffer.byteLength(module) < 5000);
+});
+
+test('Shadowrocket providers use native domain-set and rule-set formats', async () => {
+  const ads = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-category-ads-all-domain.list'), 'utf8');
+  const cn = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-cn-domain.list'), 'utf8');
+  const ip = await readFile(resolve(rootDir, 'shadowrocket/rules/geoip-cn.list'), 'utf8');
+  assert.match(ads, /^p3-ad-sign\.byteimg\.com$/m);
+  assert.match(cn, /^p3-ad-sign\.byteimg\.com$/m);
+  assert.match(cn, /^\.cn$/m);
+  assert.match(ip, /^IP-CIDR,.*no-resolve$/m);
+  assert.match(ip, /^IP-CIDR6,.*no-resolve$/m);
+  assert.doesNotMatch(ads, /,REJECT$/m);
+  assert.doesNotMatch(cn, /,DIRECT$/m);
+});
+
+test('split Shadowrocket modules report only their own omitted regex rules', async () => {
+  const advertising = await readFile(resolve(rootDir, 'shadowrocket/Advertising.sgmodule'), 'utf8');
+  const china = await readFile(resolve(rootDir, 'shadowrocket/ChinaDirect.sgmodule'), 'utf8');
+  assert.match(advertising, /省略 1 条 Shadowrocket 不兼容的 DOMAIN-REGEX/);
+  assert.match(china, /省略 8 条 Shadowrocket 不兼容的 DOMAIN-REGEX/);
 });
 
 test('public metadata is neutral', async () => {
@@ -47,7 +71,7 @@ test('public metadata is neutral', async () => {
   const module = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
   const override = await readFile(resolve(rootDir, 'stash/NetworkRules.stoverride'), 'utf8');
   assert.match(readme, /仓库仅发布公开上游生成的数据，不包含私有覆盖配置/);
-  assert.match(module, /#!desc=由公开上游生成的广告拦截与国内直连规则/);
+  assert.match(module, /#!desc=轻量引用广告拦截与国内直连规则集/);
   assert.match(override, /desc: '由公开上游生成的广告拦截与国内直连规则'/);
 });
 

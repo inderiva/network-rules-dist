@@ -6,6 +6,11 @@ import { ensureSingBox } from './sing-box.mjs';
 
 const required = [
   'shadowrocket/NetworkRules.sgmodule',
+  'shadowrocket/Advertising.sgmodule',
+  'shadowrocket/ChinaDirect.sgmodule',
+  'shadowrocket/rules/geosite-category-ads-all-domain.list',
+  'shadowrocket/rules/geosite-cn-domain.list',
+  'shadowrocket/rules/geoip-cn.list',
   'stash/NetworkRules.stoverride',
   'sing-box/route.local.fragment.json',
   'sing-box/route.remote.fragment.json',
@@ -51,6 +56,22 @@ try {
 const shadowrocket = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
 if (!shadowrocket.includes(`${targets.public_base_url}/shadowrocket/NetworkRules.sgmodule`)) throw new Error('Shadowrocket 缺少公开更新 URL');
 if (/^DOMAIN-REGEX,/m.test(shadowrocket)) throw new Error('Shadowrocket 包含不兼容的 DOMAIN-REGEX');
+if (/^(DOMAIN|DOMAIN-SUFFIX|DOMAIN-KEYWORD|IP-CIDR|IP-CIDR6),/m.test(shadowrocket)) {
+  throw new Error('Shadowrocket 模块不应内嵌大规则集');
+}
+if (!shadowrocket.includes('DOMAIN-SET,') || !shadowrocket.includes('RULE-SET,')) {
+  throw new Error('Shadowrocket 模块未引用远程规则集');
+}
+if (Buffer.byteLength(shadowrocket) > 5000) throw new Error('Shadowrocket 模块体积异常');
+const shadowrocketAds = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-category-ads-all-domain.list'), 'utf8');
+const shadowrocketCn = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-cn-domain.list'), 'utf8');
+const shadowrocketIp = await readFile(resolve(rootDir, 'shadowrocket/rules/geoip-cn.list'), 'utf8');
+if (!shadowrocketAds.includes('p3-ad-sign.byteimg.com') || !shadowrocketCn.includes('p3-ad-sign.byteimg.com')) {
+  throw new Error('Shadowrocket domain-set 缺少重叠规则哨兵');
+}
+if (!/^IP-CIDR,.*no-resolve$/m.test(shadowrocketIp) || !/^IP-CIDR6,.*no-resolve$/m.test(shadowrocketIp)) {
+  throw new Error('Shadowrocket IP rule-set 格式错误');
+}
 
 const stash = await readFile(resolve(rootDir, 'stash/NetworkRules.stoverride'), 'utf8');
 if (!stash.includes('behavior: domain') || !stash.includes('behavior: ipcidr')) throw new Error('Stash 未使用优化 provider');

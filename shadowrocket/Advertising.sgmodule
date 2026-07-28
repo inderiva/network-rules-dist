@@ -1,0 +1,10 @@
+#!url=https://raw.githubusercontent.com/inderiva/network-rules-dist/main/shadowrocket/Advertising.sgmodule
+#!name=Advertising Rules
+#!desc=仅启用公开广告拦截规则
+#!homepage=https://github.com/inderiva/network-rules-dist
+
+[Rule]
+# 省略 1 条 Shadowrocket 不兼容的 DOMAIN-REGEX。
+
+# 广告拒绝
+DOMAIN-SET,https://raw.githubusercontent.com/inderiva/network-rules-dist/main/shadowrocket/rules/geosite-category-ads-all-domain.list,REJECT
