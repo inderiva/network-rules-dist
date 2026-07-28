@@ -5,6 +5,7 @@ import { execFileAsync, readJson, rootDir, writeJson } from './lib.mjs';
 import { ensureSingBox } from './sing-box.mjs';
 
 const required = [
+  'shadowrocket/NetworkRules.conf',
   'shadowrocket/NetworkRules.sgmodule',
   'shadowrocket/rules/geosite-category-ads-all-domain.list',
   'shadowrocket/rules/geosite-cn-domain.list',
@@ -63,6 +64,21 @@ if (!inlineShadowrocketRules.length || inlineShadowrocketRules.some((line) => !/
   throw new Error('Shadowrocket 默认模块必须只包含广告拒绝规则');
 }
 if (Buffer.byteLength(shadowrocket) > 100000) throw new Error('Shadowrocket 默认模块体积异常');
+const shadowrocketConfig = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.conf'), 'utf8');
+const configAdsIndex = shadowrocketConfig.indexOf('/geosite-category-ads-all-domain.list,REJECT');
+const configCnIndex = shadowrocketConfig.indexOf('/geosite-cn-domain.list,DIRECT');
+const configGeoipIndex = shadowrocketConfig.indexOf('/geoip-cn.list,DIRECT');
+const configFinalIndex = shadowrocketConfig.indexOf('FINAL,PROXY');
+if (configAdsIndex < 0 || configCnIndex < 0 || configGeoipIndex < 0 || configFinalIndex < 0
+  || !(configAdsIndex < configCnIndex && configCnIndex < configGeoipIndex && configGeoipIndex < configFinalIndex)) {
+  throw new Error('Shadowrocket 主配置路由顺序错误');
+}
+if (/FINAL,DIRECT/.test(shadowrocketConfig) || (shadowrocketConfig.match(/^FINAL,/gm) ?? []).length !== 1) {
+  throw new Error('Shadowrocket 主配置必须唯一使用 FINAL,PROXY');
+}
+if (/192\.168\.0\.\d{1,3}(?!\/)|\.(?:internal|local|test)\./i.test(shadowrocketConfig)) {
+  throw new Error('Shadowrocket 公开主配置包含私有环境信息');
+}
 const shadowrocketAds = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-category-ads-all-domain.list'), 'utf8');
 const shadowrocketCn = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-cn-domain.list'), 'utf8');
 const shadowrocketIp = await readFile(resolve(rootDir, 'shadowrocket/rules/geoip-cn.list'), 'utf8');

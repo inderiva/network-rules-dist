@@ -52,6 +52,24 @@ test('default Shadowrocket module never overrides the existing routing policy', 
   }
 });
 
+test('Shadowrocket main config mirrors the sing-box direct-China final-proxy model', async () => {
+  const config = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.conf'), 'utf8');
+  const ads = config.indexOf('/geosite-category-ads-all-domain.list,REJECT');
+  const cn = config.indexOf('/geosite-cn-domain.list,DIRECT');
+  const geoip = config.indexOf('/geoip-cn.list,DIRECT');
+  const final = config.indexOf('FINAL,PROXY');
+  assert.ok(ads >= 0 && ads < cn && cn < geoip && geoip < final);
+  assert.equal((config.match(/^FINAL,/gm) ?? []).length, 1);
+  assert.doesNotMatch(config, /FINAL,DIRECT/);
+  assert.match(config, /^dns-server = https:\/\/doh\.pub\/dns-query,https:\/\/dns\.alidns\.com\/dns-query/m);
+  assert.match(config, /^block-quic = all-proxy$/m);
+});
+
+test('public Shadowrocket main config contains no private environment details', async () => {
+  const config = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.conf'), 'utf8');
+  assert.doesNotMatch(config, /192\.168\.0\.\d{1,3}(?!\/)|\.(?:internal|local|test)\./i);
+});
+
 test('Shadowrocket providers use native domain-set and rule-set formats', async () => {
   const ads = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-category-ads-all-domain.list'), 'utf8');
   const cn = await readFile(resolve(rootDir, 'shadowrocket/rules/geosite-cn-domain.list'), 'utf8');
@@ -67,10 +85,12 @@ test('Shadowrocket providers use native domain-set and rule-set formats', async 
 
 test('public metadata is neutral', async () => {
   const readme = await readFile(resolve(rootDir, 'README.md'), 'utf8');
+  const config = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.conf'), 'utf8');
   const module = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.sgmodule'), 'utf8');
   const override = await readFile(resolve(rootDir, 'stash/NetworkRules.stoverride'), 'utf8');
   assert.match(readme, /仓库仅发布公开上游生成的数据，不包含私有覆盖配置/);
   assert.match(module, /#!desc=仅添加广告拒绝规则，不修改直连、代理或最终策略/);
+  assert.match(config, /Public rules only; nodes remain managed by Shadowrocket/);
   assert.match(override, /desc: '由公开上游生成的广告拦截与国内直连规则'/);
 });
 

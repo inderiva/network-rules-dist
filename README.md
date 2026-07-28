@@ -6,7 +6,23 @@
 
 ### Shadowrocket
 
-只需要安装一个模块：
+推荐导入主配置：
+
+```text
+https://raw.githubusercontent.com/inderiva/network-rules-dist/main/shadowrocket/NetworkRules.conf
+```
+
+主配置不包含节点，继续使用 Shadowrocket 首页已有或订阅的节点。导入后将“全局路由”设为“配置”，路由语义与本项目参考的 sing-box 配置一致：
+
+1. 广告拒绝
+2. 局域网直连
+3. 中国域名直连
+4. 中国 IP 直连
+5. 其余流量由 `FINAL,PROXY` 交给首页选中的代理节点
+
+主配置同时提供中性公共 DNS、DNS 劫持、代理流量禁用 QUIC 和 IPv4 优先设置，不包含私人域名、内网 DNS 或节点信息。
+
+如果现有主配置已经正确使用 `FINAL,PROXY`，只想额外屏蔽广告，也可以仅安装模块：
 
 ```text
 https://raw.githubusercontent.com/inderiva/network-rules-dist/main/shadowrocket/NetworkRules.sgmodule

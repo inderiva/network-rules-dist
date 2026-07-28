@@ -305,4 +305,46 @@ const shadowrocketModule = [
 ].join('\n');
 await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.sgmodule'), shadowrocketModule);
 
-console.log(`已生成 sing-box ${singRuleSets.length} 个规则集、Stash ${stashProviders.length} 个 provider、Shadowrocket ${shadowrocketSets.length} 个规则集和 1 个安全模块`);
+const shadowrocketMainConfig = [
+  '# Network Rules - Shadowrocket main configuration',
+  '# Public rules only; nodes remain managed by Shadowrocket.',
+  '',
+  '[General]',
+  `update-url = ${targets.public_base_url}/shadowrocket/NetworkRules.conf`,
+  'skip-proxy = 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,127.0.0.0/8,localhost,*.local,captive.apple.com',
+  'tun-excluded-routes = 10.0.0.0/8,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,192.168.0.0/16,224.0.0.0/4,255.255.255.255/32,ff02::fb/128',
+  'dns-server = https://doh.pub/dns-query,https://dns.alidns.com/dns-query,223.5.5.5,119.29.29.29',
+  'fallback-dns-server = system',
+  'ipv6 = false',
+  'prefer-ipv6 = false',
+  'dns-direct-system = false',
+  'private-ip-answer = true',
+  'dns-direct-fallback-proxy = true',
+  'icmp-auto-reply = true',
+  'hijack-dns = 8.8.8.8:53,8.8.4.4:53',
+  'udp-policy-not-supported-behaviour = REJECT',
+  'block-quic = all-proxy',
+  '',
+  '[Rule]',
+  '# Advertising must be rejected before China direct rules.',
+  `DOMAIN-SET,${targets.public_base_url}/shadowrocket/rules/geosite-category-ads-all-domain.list,REJECT`,
+  '',
+  '# Local networks.',
+  'IP-CIDR,10.0.0.0/8,DIRECT,no-resolve',
+  'IP-CIDR,127.0.0.0/8,DIRECT,no-resolve',
+  'IP-CIDR,169.254.0.0/16,DIRECT,no-resolve',
+  'IP-CIDR,172.16.0.0/12,DIRECT,no-resolve',
+  'IP-CIDR,192.168.0.0/16,DIRECT,no-resolve',
+  'IP-CIDR6,::1/128,DIRECT,no-resolve',
+  'IP-CIDR6,fc00::/7,DIRECT,no-resolve',
+  'IP-CIDR6,fe80::/10,DIRECT,no-resolve',
+  '',
+  '# China direct; everything else uses the selected proxy node.',
+  `DOMAIN-SET,${targets.public_base_url}/shadowrocket/rules/geosite-cn-domain.list,DIRECT`,
+  `RULE-SET,${targets.public_base_url}/shadowrocket/rules/geoip-cn.list,DIRECT`,
+  'FINAL,PROXY',
+  ''
+].join('\n');
+await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.conf'), shadowrocketMainConfig);
+
+console.log(`已生成 sing-box ${singRuleSets.length} 个规则集、Stash ${stashProviders.length} 个 provider、Shadowrocket ${shadowrocketSets.length} 个规则集、1 个主配置和 1 个安全模块`);
