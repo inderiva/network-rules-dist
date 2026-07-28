@@ -1,0 +1,15 @@
+{
+  "public_base_url": "https://raw.githubusercontent.com/inderiva/network-rules-dist/main",
+  "shadowrocket": {
+    "proxy_policy": "PROXY"
+  },
+  "stash": {
+    "proxy_policy": "PROXY"
+  },
+  "sing_box": {
+    "direct_outbound": "direct",
+    "proxy_outbound": "auto",
+    "direct_dns_server": "dns-direct",
+    "remote_dns_server": "dns-remote"
+  }
+}

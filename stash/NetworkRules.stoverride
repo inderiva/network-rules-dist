@@ -1,0 +1,47 @@
+name: 'Network Rules'
+desc: '公开维护的广告拦截、国内直连和抖音直连规则'
+homepage: 'https://github.com/inderiva/network-rules-dist'
+rule-providers:
+  custom-direct-domain:
+    behavior: domain
+    format: yaml
+    path: ./rules/network-rules-dist/custom-direct-domain.yaml
+    url: https://raw.githubusercontent.com/inderiva/network-rules-dist/main/stash/rules/custom-direct-domain.yaml
+    interval: 86400
+  geosite-category-ads-all-domain:
+    behavior: domain
+    format: yaml
+    path: ./rules/network-rules-dist/geosite-category-ads-all-domain.yaml
+    url: https://raw.githubusercontent.com/inderiva/network-rules-dist/main/stash/rules/geosite-category-ads-all-domain.yaml
+    interval: 86400
+  geosite-category-ads-all-classical:
+    behavior: classical
+    format: yaml
+    path: ./rules/network-rules-dist/geosite-category-ads-all-classical.yaml
+    url: https://raw.githubusercontent.com/inderiva/network-rules-dist/main/stash/rules/geosite-category-ads-all-classical.yaml
+    interval: 86400
+  geosite-cn-domain:
+    behavior: domain
+    format: yaml
+    path: ./rules/network-rules-dist/geosite-cn-domain.yaml
+    url: https://raw.githubusercontent.com/inderiva/network-rules-dist/main/stash/rules/geosite-cn-domain.yaml
+    interval: 86400
+  geosite-cn-classical:
+    behavior: classical
+    format: yaml
+    path: ./rules/network-rules-dist/geosite-cn-classical.yaml
+    url: https://raw.githubusercontent.com/inderiva/network-rules-dist/main/stash/rules/geosite-cn-classical.yaml
+    interval: 86400
+  geoip-cn:
+    behavior: ipcidr
+    format: yaml
+    path: ./rules/network-rules-dist/geoip-cn.yaml
+    url: https://raw.githubusercontent.com/inderiva/network-rules-dist/main/stash/rules/geoip-cn.yaml
+    interval: 86400
+rules:
+  - RULE-SET,custom-direct-domain,DIRECT
+  - RULE-SET,geosite-category-ads-all-domain,REJECT
+  - RULE-SET,geosite-category-ads-all-classical,REJECT
+  - RULE-SET,geosite-cn-domain,DIRECT
+  - RULE-SET,geosite-cn-classical,DIRECT
+  - RULE-SET,geoip-cn,DIRECT

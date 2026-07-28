@@ -1,0 +1,54 @@
+{
+  "route": {
+    "rule_set": [
+      {
+        "type": "local",
+        "tag": "custom-direct",
+        "format": "binary",
+        "path": "./rules/custom-direct.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geosite-category-ads-all",
+        "format": "binary",
+        "path": "./rules/geosite-category-ads-all.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geosite-cn",
+        "format": "binary",
+        "path": "./rules/geosite-cn.srs"
+      },
+      {
+        "type": "local",
+        "tag": "geoip-cn",
+        "format": "binary",
+        "path": "./rules/geoip-cn.srs"
+      }
+    ],
+    "rules": [
+      {
+        "rule_set": "custom-direct",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-category-ads-all",
+        "action": "reject"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geosite-cn",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": "geoip-cn",
+        "outbound": "direct"
+      }
+    ],
+    "final": "auto",
+    "auto_detect_interface": true
+  }
+}

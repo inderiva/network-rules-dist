@@ -1,0 +1,29 @@
+{
+  "sing_box": {
+    "version": "1.13.4",
+    "linux_x64_glibc": {
+      "url": "https://github.com/SagerNet/sing-box/releases/download/v1.13.4/sing-box-1.13.4-linux-amd64-glibc.tar.gz",
+      "sha256": "9e9e9964e92b65f05610161208c5d8e69dac5a6af97397b592d273139c6b182a"
+    }
+  },
+  "rule_sets": {
+    "geosite_cn": {
+      "tag": "geosite-cn",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
+      "minimum_rules": 1000
+    },
+    "geosite_ads": {
+      "tag": "geosite-category-ads-all",
+      "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-ads-all.srs",
+      "minimum_rules": 500
+    },
+    "geoip_cn": {
+      "tag": "geoip-cn",
+      "ipv4_url": "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt",
+      "ipv6_url": "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china6.txt",
+      "minimum_ipv4": 4000,
+      "minimum_ipv6": 1500,
+      "sentinel": "8.152.0.0/13"
+    }
+  }
+}

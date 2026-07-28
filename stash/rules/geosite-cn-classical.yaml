@@ -1,0 +1,9 @@
+payload:
+  - 'DOMAIN-REGEX,.+\.awsdns-cn-[0-9][0-9]\.(biz|com|net|top)$'
+  - 'DOMAIN-REGEX,.+\.awsdns-cn-[0-9][a-e0-9]\.cn$'
+  - 'DOMAIN-REGEX,^.+-mihayo\.akamaized\.net$'
+  - 'DOMAIN-REGEX,^cdn\d-epicgames-\d+\.file\.myqcloud\.com$'
+  - 'DOMAIN-REGEX,^epicgames-download\d-\d+\.file\.myqcloud\.com$'
+  - 'DOMAIN-REGEX,^nis.+\.10010\.com$'
+  - 'DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.googlevideo\.com$'
+  - 'DOMAIN-REGEX,^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.xn--ngstr-lra8j\.com$'

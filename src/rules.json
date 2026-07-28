@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "groups": {
+    "reject": {
+      "domain": [],
+      "domain_suffix": [],
+      "domain_regex": [],
+      "ip_cidr": []
+    },
+    "direct": {
+      "domain": [],
+      "domain_suffix": [
+        "amemv.com",
+        "byteimg.com",
+        "douyincdn.com",
+        "douyinpic.com",
+        "douyinvod.com",
+        "iesdouyin.com",
+        "pstatp.com",
+        "snssdk.com"
+      ],
+      "domain_regex": [],
+      "ip_cidr": []
+    },
+    "proxy": {
+      "domain": [],
+      "domain_suffix": [],
+      "domain_regex": [],
+      "ip_cidr": []
+    }
+  }
+}
