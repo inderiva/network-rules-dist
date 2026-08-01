@@ -39,7 +39,7 @@ jobs:
         run: |
           pr_number="$(gh pr list \
             --repo "$GITHUB_REPOSITORY" \
-            --head "$GITHUB_REPOSITORY_OWNER:${GITHUB_REF_NAME}" \
+            --head "$GITHUB_REF_NAME" \
             --base main \
             --state open \
             --json number \

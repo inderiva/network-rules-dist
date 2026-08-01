@@ -452,6 +452,7 @@ DOMAIN-SUFFIX,crash.163.com,REJECT
 DOMAIN-SUFFIX,crash2.zhihu.com,REJECT
 DOMAIN-SUFFIX,crashlytics.163.com,REJECT
 DOMAIN-SUFFIX,cretgate.com,REJECT
+DOMAIN-SUFFIX,csjplatform.com,REJECT
 DOMAIN-SUFFIX,cstm.baidu.com,REJECT
 DOMAIN-SUFFIX,ctobsnssdk.com,REJECT
 DOMAIN-SUFFIX,cupid.iqiyi.com,REJECT
@@ -705,6 +706,7 @@ DOMAIN-SUFFIX,p-log.ykimg.com,REJECT
 DOMAIN-SUFFIX,p.aty.sohu.com,REJECT
 DOMAIN-SUFFIX,p4p.sina.com.cn,REJECT
 DOMAIN-SUFFIX,pagead.l.google.com,REJECT
+DOMAIN-SUFFIX,pangle.cn,REJECT
 DOMAIN-SUFFIX,pangolin-dsp-toutiao-b.com,REJECT
 DOMAIN-SUFFIX,pangolin-dsp-toutiao.com,REJECT
 DOMAIN-SUFFIX,pangolin-hl.snssdk.com,REJECT
