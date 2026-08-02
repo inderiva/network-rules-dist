@@ -364,6 +364,7 @@ DOMAIN-SUFFIX,analytics.vk.com,REJECT
 DOMAIN-SUFFIX,analytics.vpc.duolingo.com,REJECT
 DOMAIN-SUFFIX,api-adservices.apple.com,REJECT
 DOMAIN-SUFFIX,api2.amplitude.com,REJECT
+DOMAIN-SUFFIX,app-ads-services.com,REJECT
 DOMAIN-SUFFIX,app-analytics-services-att.com,REJECT
 DOMAIN-SUFFIX,app-analytics-services.com,REJECT
 DOMAIN-SUFFIX,app-measurement-cn.com,REJECT

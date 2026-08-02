@@ -2852,6 +2852,7 @@
         "cqn.com.cn",
         "cqnews.net",
         "cqsjb.com",
+        "cqtk.com.cn",
         "cqvip.com",
         "cr-cts.com",
         "cr173.com",
@@ -9027,13 +9028,13 @@
         "zztfly.com"
       ],
       "domain_regex": [
-        "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.googlevideo\\.com$",
-        "^.+-mihayo\\.akamaized\\.net$",
         ".+\\.awsdns-cn-[0-9][0-9]\\.(biz|com|net|top)$",
+        "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.googlevideo\\.com$",
+        "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$",
         "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
+        "^.+-mihayo\\.akamaized\\.net$",
         "^nis.+\\.10010\\.com$",
         "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.xn--ngstr-lra8j\\.com$",
-        "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$",
         ".+\\.awsdns-cn-[0-9][a-e0-9]\\.cn$"
       ]
     }
