@@ -1,7 +1,7 @@
 # NAME: geosite-category-ads-all-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 903
+# TOTAL: 904
 
 .1rx.io
 .2mdn-cn.net
@@ -188,6 +188,7 @@
 .analytics.vpc.duolingo.com
 .api-adservices.apple.com
 .api2.amplitude.com
+.app-ads-services.com
 .app-analytics-services-att.com
 .app-analytics-services.com
 .app-measurement-cn.com
