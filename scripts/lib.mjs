@@ -70,6 +70,19 @@ export function uniqueSorted(values) {
   return [...new Set(values.map((value) => value.trim()).filter(Boolean))].sort();
 }
 
+export function validateCountSafety(value, options) {
+  if (!Number.isInteger(value) || value < options.minimum || value > options.maximum) {
+    throw new Error(`${options.tag} 数量 ${value} 超出安全范围 ${options.minimum}-${options.maximum}`);
+  }
+  if (Number.isInteger(options.previous) && options.previous > 0) {
+    const changeRatio = Math.abs(value - options.previous) / options.previous;
+    if (changeRatio > options.maximumChangeRatio) {
+      throw new Error(`${options.tag} 数量相对上次变化 ${(changeRatio * 100).toFixed(1)}%，超过安全阈值`);
+    }
+  }
+  return value;
+}
+
 export function ruleValues(value, context = 'rule field') {
   if (value === undefined || value === null) return [];
   const values = Array.isArray(value) ? value : [value];
@@ -117,14 +130,11 @@ export function validateRuleSetSafety(source, options) {
     }
   }
   const entries = countRuleEntries(source);
-  if (entries < options.minimumEntries || entries > options.maximumEntries) {
-    throw new Error(`${options.tag} 数量 ${entries} 超出安全范围 ${options.minimumEntries}-${options.maximumEntries}`);
-  }
-  if (options.previousEntries) {
-    const changeRatio = Math.abs(entries - options.previousEntries) / options.previousEntries;
-    if (changeRatio > options.maximumChangeRatio) {
-      throw new Error(`${options.tag} 数量相对上次变化 ${(changeRatio * 100).toFixed(1)}%，超过安全阈值`);
-    }
-  }
-  return entries;
+  return validateCountSafety(entries, {
+    tag: options.tag,
+    minimum: options.minimumEntries,
+    maximum: options.maximumEntries,
+    previous: options.previousEntries,
+    maximumChangeRatio: options.maximumChangeRatio
+  });
 }

@@ -10,6 +10,7 @@ import {
   rootDir,
   sha256,
   uniqueSorted,
+  validateCountSafety,
   validateRuleSetSafety,
   writeJson
 } from './lib.mjs';
@@ -39,6 +40,10 @@ const previous = await readJsonIfPresent(manifestPath);
 
 function previousEntries(tag) {
   return previous?.sources?.find((source) => source.tag === tag)?.entries;
+}
+
+function previousSource(tag) {
+  return previous?.sources?.find((source) => source.tag === tag);
 }
 
 try {
@@ -74,10 +79,21 @@ try {
   const ipv6 = cidrLines(ipv6Buffer);
   validateCidrs(ipv4, 4);
   validateCidrs(ipv6, 6);
-  if (ipv4.length < geoip.minimum_ipv4 || ipv4.length > geoip.maximum_ipv4
-    || ipv6.length < geoip.minimum_ipv6 || ipv6.length > geoip.maximum_ipv6) {
-    throw new Error(`中国 IP 数量异常：IPv4=${ipv4.length}, IPv6=${ipv6.length}`);
-  }
+  const previousGeoip = previousSource(geoip.tag);
+  validateCountSafety(ipv4.length, {
+    tag: `${geoip.tag} IPv4`,
+    minimum: geoip.minimum_ipv4,
+    maximum: geoip.maximum_ipv4,
+    previous: previousGeoip?.ipv4,
+    maximumChangeRatio: geoip.maximum_change_ratio
+  });
+  validateCountSafety(ipv6.length, {
+    tag: `${geoip.tag} IPv6`,
+    minimum: geoip.minimum_ipv6,
+    maximum: geoip.maximum_ipv6,
+    previous: previousGeoip?.ipv6,
+    maximumChangeRatio: geoip.maximum_change_ratio
+  });
   if (!ipv4.includes(geoip.sentinel)) throw new Error(`中国 IP 缺少哨兵网段 ${geoip.sentinel}`);
   const geoipSource = { version: 3, rules: [{ ip_cidr: [...ipv4, ...ipv6] }] };
   validateRuleSetSafety(geoipSource, {

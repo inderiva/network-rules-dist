@@ -2,7 +2,13 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import test from 'node:test';
-import { countRuleEntries, readJson, rootDir, validateRuleSetSafety } from '../scripts/lib.mjs';
+import {
+  countRuleEntries,
+  readJson,
+  rootDir,
+  validateCountSafety,
+  validateRuleSetSafety
+} from '../scripts/lib.mjs';
 
 test('public custom source contains no product-specific overrides', async () => {
   const source = await readJson(resolve(rootDir, 'src/rules.json'));
@@ -139,4 +145,19 @@ test('upstream safety guard rejects broad or suddenly changed data', () => {
     { rules: [{ ip_cidr: '0.0.0.0\/0' }] },
     { ...base, tag: 'geoip', allowedFields: ['ip_cidr'], rejectSingleLabelSuffix: false }
   ), /全网 CIDR/);
+});
+
+test('geoip family safety accepts the trusted-transit update and rejects unsafe counts', async () => {
+  const geoip = (await readJson(resolve(rootDir, 'src/upstreams.json'))).rule_sets.geoip_cn;
+  const options = {
+    tag: 'geoip-cn IPv6',
+    minimum: geoip.minimum_ipv6,
+    maximum: geoip.maximum_ipv6,
+    previous: 1606,
+    maximumChangeRatio: geoip.maximum_change_ratio
+  };
+  assert.equal(validateCountSafety(1234, options), 1234);
+  assert.throws(() => validateCountSafety(999, options), /超出安全范围/);
+  assert.throws(() => validateCountSafety(3001, options), /超出安全范围/);
+  assert.throws(() => validateCountSafety(1200, options), /相对上次变化/);
 });
