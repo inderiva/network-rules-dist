@@ -28,12 +28,12 @@ jobs:
     needs: validate
     if: github.event_name == 'workflow_dispatch' && startsWith(github.ref_name, 'automation/update-public-rules')
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
       pull-requests: write
-      actions: write
     steps:
-      - name: Merge validated update and publish
+      - name: Wait for required checks and merge validated update
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -48,5 +48,5 @@ jobs:
             echo 'No open automated update PR found.' >&2
             exit 1
           fi
+          gh pr checks "$pr_number" --repo "$GITHUB_REPOSITORY" --required --watch --fail-fast
           gh pr merge "$pr_number" --repo "$GITHUB_REPOSITORY" --squash --delete-branch
-          gh workflow run publish.yml --repo "$GITHUB_REPOSITORY" --ref main

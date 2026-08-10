@@ -5,6 +5,7 @@ import { execFileAsync, outputDir, readJson, rootDir, writeJson } from './lib.mj
 import { ensureSingBox } from './sing-box.mjs';
 
 const targets = await readJson(resolve(rootDir, 'src/targets.json'));
+const upstreams = await readJson(resolve(rootDir, 'src/upstreams.json'));
 const profile = targets.generator?.profile ?? 'public';
 const privateProfile = profile === 'private';
 const rulesBaseUrl = (process.env.RULES_BASE_URL || targets.public_base_url || '').replace(/\/$/, '');
@@ -111,8 +112,20 @@ if (stashRegex.split('\n').filter((line) => line.includes('DOMAIN-REGEX,')).leng
 }
 
 const manifest = await readJson(resolve(rootDir, 'vendor/manifest.json'));
-const counts = Object.fromEntries(manifest.sources.map((source) => [source.tag, source.entries]));
-if (counts['geosite-cn'] < 1000 || counts['geosite-category-ads-all'] < 500 || counts['geoip-cn'] < 5500) {
-  throw new Error('上游规则数量低于安全阈值');
+const sources = new Map(manifest.sources.map((source) => [source.tag, source]));
+for (const key of ['geosite_cn', 'geosite_ads']) {
+  const config = upstreams.rule_sets[key];
+  const entries = sources.get(config.tag)?.entries ?? 0;
+  if (entries < config.minimum_rules || entries > config.maximum_rules) {
+    throw new Error(`${config.tag} 数量 ${entries} 超出安全范围 ${config.minimum_rules}-${config.maximum_rules}`);
+  }
+}
+const geoip = upstreams.rule_sets.geoip_cn;
+const geoipSource = sources.get(geoip.tag);
+if (!Number.isInteger(geoipSource?.ipv4) || !Number.isInteger(geoipSource?.ipv6)
+  || geoipSource.ipv4 < geoip.minimum_ipv4 || geoipSource.ipv4 > geoip.maximum_ipv4
+  || geoipSource.ipv6 < geoip.minimum_ipv6 || geoipSource.ipv6 > geoip.maximum_ipv6
+  || geoipSource.entries !== geoipSource.ipv4 + geoipSource.ipv6) {
+  throw new Error(`${geoip.tag} IPv4/IPv6 数量超出安全范围`);
 }
 console.log(`检查通过：${profile} 配置规则顺序正确、默认模块安全、sing-box 配置有效`);
