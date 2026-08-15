@@ -117,16 +117,6 @@ DOMAIN,openai.qualtrics.com,REJECT
 DOMAIN,p3-ad-sign.byteimg.com,REJECT
 DOMAIN,p6-ad-sign.byteimg.com,REJECT
 DOMAIN,p9-ad-sign.byteimg.com,REJECT
-DOMAIN,pinggai0.caixin.com,REJECT
-DOMAIN,pinggai1.caixin.com,REJECT
-DOMAIN,pinggai2.caixin.com,REJECT
-DOMAIN,pinggai3.caixin.com,REJECT
-DOMAIN,pinggai4.caixin.com,REJECT
-DOMAIN,pinggai5.caixin.com,REJECT
-DOMAIN,pinggai6.caixin.com,REJECT
-DOMAIN,pinggai7.caixin.com,REJECT
-DOMAIN,pinggai8.caixin.com,REJECT
-DOMAIN,pinggai9.caixin.com,REJECT
 DOMAIN,pixel.rustore.ru,REJECT
 DOMAIN,pixel.yandex.com,REJECT
 DOMAIN,prodvizhenie-adv.ozon.ru,REJECT
@@ -238,6 +228,8 @@ DOMAIN-SUFFIX,adbox.sina.com.cn,REJECT
 DOMAIN-SUFFIX,adbutter.net,REJECT
 DOMAIN-SUFFIX,adc.hpplay.cn,REJECT
 DOMAIN-SUFFIX,adcolony.com,REJECT
+DOMAIN-SUFFIX,addthis.com,REJECT
+DOMAIN-SUFFIX,addthiscdn.com,REJECT
 DOMAIN-SUFFIX,addthisedge.com,REJECT
 DOMAIN-SUFFIX,adeng.hpplay.cn,REJECT
 DOMAIN-SUFFIX,adfilter.imtt.qq.com,REJECT
@@ -263,7 +255,6 @@ DOMAIN-SUFFIX,adnet.sohu.com,REJECT
 DOMAIN-SUFFIX,adnxs.com,REJECT
 DOMAIN-SUFFIX,adping.qq.com,REJECT
 DOMAIN-SUFFIX,adpm.app.qq.com,REJECT
-DOMAIN-SUFFIX,adq.chinaso.com,REJECT
 DOMAIN-SUFFIX,ads-api.duolingo.com,REJECT
 DOMAIN-SUFFIX,ads-pixiv.net,REJECT
 DOMAIN-SUFFIX,ads-twitter.com,REJECT
@@ -417,7 +408,6 @@ DOMAIN-SUFFIX,cb.baidu.com,REJECT
 DOMAIN-SUFFIX,cbjs.baidu.com,REJECT
 DOMAIN-SUFFIX,ccs.umeng.com,REJECT
 DOMAIN-SUFFIX,cdn.banclip.com,REJECT
-DOMAIN-SUFFIX,cdn.pocoiq.cn,REJECT
 DOMAIN-SUFFIX,cdp.cloud.unity3d.com,REJECT
 DOMAIN-SUFFIX,cfts1tifqr.com,REJECT
 DOMAIN-SUFFIX,china-caa.org,REJECT
@@ -460,7 +450,6 @@ DOMAIN-SUFFIX,cupid.iqiyi.com,REJECT
 DOMAIN-SUFFIX,cxhub.ru,REJECT
 DOMAIN-SUFFIX,da.hunantv.com,REJECT
 DOMAIN-SUFFIX,da.mgtv.com,REJECT
-DOMAIN-SUFFIX,das-rpt-log.ucloud.cn,REJECT
 DOMAIN-SUFFIX,data.flurry.com,REJECT
 DOMAIN-SUFFIX,data.mistat.india.xiaomi.com,REJECT
 DOMAIN-SUFFIX,data.mistat.intl.xiaomi.com,REJECT
@@ -471,7 +460,6 @@ DOMAIN-SUFFIX,dc.letv.com,REJECT
 DOMAIN-SUFFIX,decide.mixpanel.com,REJECT
 DOMAIN-SUFFIX,demdex.net,REJECT
 DOMAIN-SUFFIX,dig.bdurl.net,REJECT
-DOMAIN-SUFFIX,dn-growing.qbox.me,REJECT
 DOMAIN-SUFFIX,doubleclick-cn.net,REJECT
 DOMAIN-SUFFIX,doubleclick.cn,REJECT
 DOMAIN-SUFFIX,doubleclick.com,REJECT
@@ -692,7 +680,6 @@ DOMAIN-SUFFIX,nsclick.baidu.com,REJECT
 DOMAIN-SUFFIX,nsclickvideo.baidu.com,REJECT
 DOMAIN-SUFFIX,obs.mts.ru,REJECT
 DOMAIN-SUFFIX,oc.umeng.com,REJECT
-DOMAIN-SUFFIX,oct.pocoiq.cn,REJECT
 DOMAIN-SUFFIX,ogury.co,REJECT
 DOMAIN-SUFFIX,ogury.com,REJECT
 DOMAIN-SUFFIX,onesignal.com,REJECT
@@ -807,7 +794,6 @@ DOMAIN-SUFFIX,splash-ads.unitychina.cn,REJECT
 DOMAIN-SUFFIX,spotxchange.com,REJECT
 DOMAIN-SUFFIX,ssacdn.com,REJECT
 DOMAIN-SUFFIX,ssp.api.tappx.com,REJECT
-DOMAIN-SUFFIX,stat.chinaso.com,REJECT
 DOMAIN-SUFFIX,stat.m.jd.com,REJECT
 DOMAIN-SUFFIX,stat.y.qq.com,REJECT
 DOMAIN-SUFFIX,stat.youku.com,REJECT
