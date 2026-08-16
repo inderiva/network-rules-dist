@@ -100,7 +100,7 @@ test('public README stays empty and generated metadata remains neutral', async (
   assert.match(override, /desc: '仅添加广告拦截，不修改直连、代理或最终策略'/);
 });
 
-test('automated updates report exact dispatched validation before merging', async () => {
+test('automated updates report exact validation and publish current main', async () => {
   const updateWorkflow = await readFile(resolve(rootDir, '.github/workflows/update.yml'), 'utf8');
   const validateWorkflow = await readFile(resolve(rootDir, '.github/workflows/validate.yml'), 'utf8');
   assert.match(updateWorkflow, /actions: write/);
@@ -118,7 +118,8 @@ test('automated updates report exact dispatched validation before merging', asyn
   const publicationWatch = updateWorkflow.indexOf('gh run watch "$publish_run_id" --exit-status');
   assert.ok(validation >= 0 && validation < status && status < merge);
   assert.ok(merge < publication && publication < publicationWatch);
-  assert.match(updateWorkflow, /select\(\.headSha == \\"\$merged_sha\\"\)/);
+  assert.match(updateWorkflow, /git\/ref\/heads\/main/);
+  assert.match(updateWorkflow, /published_sha.*!=.*main_sha/);
   assert.doesNotMatch(validateWorkflow, /gh pr checks|merge-automated-update/);
 });
 
