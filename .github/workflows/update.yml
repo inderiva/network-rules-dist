@@ -8,7 +8,8 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  actions: read
+  actions: write
+  statuses: write
 
 concurrency:
   group: update-public-rules
@@ -60,13 +61,14 @@ jobs:
           fi
 
           head_sha="$(git rev-parse HEAD)"
+          gh workflow run validate.yml --ref "$branch"
 
           run_id=''
           for attempt in $(seq 1 60); do
             run_id="$(gh run list \
               --workflow validate.yml \
               --branch "$branch" \
-              --event pull_request \
+              --event workflow_dispatch \
               --limit 10 \
               --json databaseId,headSha \
               --jq ".[] | select(.headSha == \"$head_sha\") | .databaseId" \
@@ -75,11 +77,17 @@ jobs:
             sleep 5
           done
           if [ -z "$run_id" ]; then
-            echo 'The pull request validation run did not appear.' >&2
+            echo 'The dispatched validation run did not appear.' >&2
             exit 1
           fi
 
           gh run watch "$run_id" --exit-status
+          gh api --method POST \
+            "repos/$GITHUB_REPOSITORY/statuses/$head_sha" \
+            -f state=success \
+            -f context=validate \
+            -f description='Exact commit passed Validate rules' \
+            -f target_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$run_id"
           for attempt in $(seq 1 12); do
             if gh pr merge "$pr_number" --squash --delete-branch; then
               exit 0
