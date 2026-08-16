@@ -8,7 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
-  actions: write
+  actions: read
 
 concurrency:
   group: update-public-rules
@@ -60,14 +60,13 @@ jobs:
           fi
 
           head_sha="$(git rev-parse HEAD)"
-          gh workflow run validate.yml --ref "$branch"
 
           run_id=''
           for attempt in $(seq 1 60); do
             run_id="$(gh run list \
               --workflow validate.yml \
               --branch "$branch" \
-              --event workflow_dispatch \
+              --event pull_request \
               --limit 10 \
               --json databaseId,headSha \
               --jq ".[] | select(.headSha == \"$head_sha\") | .databaseId" \
@@ -76,7 +75,7 @@ jobs:
             sleep 5
           done
           if [ -z "$run_id" ]; then
-            echo 'The dispatched validation run did not appear.' >&2
+            echo 'The pull request validation run did not appear.' >&2
             exit 1
           fi
 
