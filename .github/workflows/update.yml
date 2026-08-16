@@ -36,7 +36,7 @@ jobs:
           else
             echo 'changed=true' >> "$GITHUB_OUTPUT"
           fi
-      - name: Create or update pull request
+      - name: Create, validate, and merge pull request
         if: steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -88,41 +88,41 @@ jobs:
             -f context=validate \
             -f description='Exact commit passed Validate rules' \
             -f target_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$run_id"
+          merged='false'
           for attempt in $(seq 1 12); do
             if gh pr merge "$pr_number" --squash --delete-branch; then
-              merged_sha=''
-              for merge_attempt in $(seq 1 12); do
-                merged_sha="$(gh pr view "$pr_number" --json mergeCommit --jq '.mergeCommit.oid // empty')"
-                [ -n "$merged_sha" ] && break
-                sleep 5
-              done
-              if [ -z "$merged_sha" ]; then
-                echo "Merged update PR #$pr_number has no merge commit." >&2
-                exit 1
-              fi
-
-              gh workflow run publish.yml --ref main
-              publish_run_id=''
-              for publish_attempt in $(seq 1 60); do
-                publish_run_id="$(gh run list \
-                  --workflow publish.yml \
-                  --branch main \
-                  --event workflow_dispatch \
-                  --limit 10 \
-                  --json databaseId,headSha \
-                  --jq ".[] | select(.headSha == \"$merged_sha\") | .databaseId" \
-                  | head -n 1)"
-                [ -n "$publish_run_id" ] && break
-                sleep 5
-              done
-              if [ -z "$publish_run_id" ]; then
-                echo "The release run for update PR #$pr_number did not appear." >&2
-                exit 1
-              fi
-              gh run watch "$publish_run_id" --exit-status
-              exit 0
+              merged='true'
+              break
             fi
             sleep 5
           done
-          echo "Validated update PR #$pr_number could not be merged." >&2
-          exit 1
+          if [ "$merged" != 'true' ]; then
+            echo "Validated update PR #$pr_number could not be merged." >&2
+            exit 1
+          fi
+      - name: Publish current main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          main_sha="$(gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/main" --jq '.object.sha')"
+          publish_run_url="$(gh workflow run publish.yml --ref main)"
+          publish_run_id="${publish_run_url##*/}"
+          if [[ ! "$publish_run_id" =~ ^[0-9]+$ ]]; then
+            echo 'The release workflow did not return a run ID.' >&2
+            exit 1
+          fi
+
+          published_sha=''
+          for attempt in $(seq 1 30); do
+            published_sha="$(gh run view "$publish_run_id" \
+              --json event,headSha \
+              --jq 'select(.event == "workflow_dispatch") | .headSha' \
+              2>/dev/null || true)"
+            [ -n "$published_sha" ] && break
+            sleep 2
+          done
+          if [ "$published_sha" != "$main_sha" ]; then
+            echo "Release run targets $published_sha instead of $main_sha." >&2
+            exit 1
+          fi
+          gh run watch "$publish_run_id" --exit-status
