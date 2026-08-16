@@ -15,38 +15,20 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 22
+      - name: Require a new generator version for generator changes
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          tag="generator-v${version}"
+          if git rev-parse --verify --quiet "refs/tags/$tag" >/dev/null; then
+            git diff --exit-code "$tag" -- package.json scripts
+          fi
       - run: npm run build
       - run: npm run check
       - run: npm test
       - name: Ensure generated files are current
         run: git diff --exit-code
-
-  merge-automated-update:
-    needs: validate
-    if: github.event_name == 'workflow_dispatch' && startsWith(github.ref_name, 'automation/update-public-rules')
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    permissions:
-      contents: write
-      pull-requests: write
-    steps:
-      - name: Wait for required checks and merge validated update
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          pr_number="$(gh pr list \
-            --repo "$GITHUB_REPOSITORY" \
-            --head "$GITHUB_REF_NAME" \
-            --base main \
-            --state open \
-            --json number \
-            --jq '.[0].number // empty')"
-          if [ -z "$pr_number" ]; then
-            echo 'No open automated update PR found.' >&2
-            exit 1
-          fi
-          gh pr checks "$pr_number" --repo "$GITHUB_REPOSITORY" --required --watch --fail-fast
-          gh pr merge "$pr_number" --repo "$GITHUB_REPOSITORY" --squash --delete-branch
