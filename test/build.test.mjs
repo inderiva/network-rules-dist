@@ -100,15 +100,21 @@ test('public README stays empty and generated metadata remains neutral', async (
   assert.match(override, /desc: '仅添加广告拦截，不修改直连、代理或最终策略'/);
 });
 
-test('automated updates wait for the exact pull request validation before merging', async () => {
+test('automated updates report exact dispatched validation before merging', async () => {
   const updateWorkflow = await readFile(resolve(rootDir, '.github/workflows/update.yml'), 'utf8');
   const validateWorkflow = await readFile(resolve(rootDir, '.github/workflows/validate.yml'), 'utf8');
+  assert.match(updateWorkflow, /actions: write/);
+  assert.match(updateWorkflow, /statuses: write/);
+  assert.match(updateWorkflow, /gh workflow run validate\.yml --ref "\$branch"/);
   assert.match(updateWorkflow, /--json databaseId,headSha/);
   assert.match(updateWorkflow, /select\(\.headSha == \\"\$head_sha\\"\)/);
-  assert.match(updateWorkflow, /--event pull_request/);
+  assert.match(updateWorkflow, /--event workflow_dispatch/);
   assert.match(updateWorkflow, /gh run watch "\$run_id" --exit-status/);
   assert.match(updateWorkflow, /gh pr merge "\$pr_number" --squash --delete-branch/);
-  assert.doesNotMatch(updateWorkflow, /gh workflow run/);
+  const validation = updateWorkflow.indexOf('gh run watch "$run_id" --exit-status');
+  const status = updateWorkflow.indexOf('"repos/$GITHUB_REPOSITORY/statuses/$head_sha"');
+  const merge = updateWorkflow.indexOf('gh pr merge "$pr_number" --squash --delete-branch');
+  assert.ok(validation >= 0 && validation < status && status < merge);
   assert.doesNotMatch(validateWorkflow, /gh pr checks|merge-automated-update/);
 });
 
