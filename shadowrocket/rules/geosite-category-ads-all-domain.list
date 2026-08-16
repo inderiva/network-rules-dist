@@ -1,7 +1,7 @@
 # NAME: geosite-category-ads-all-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 904
+# TOTAL: 890
 
 .1rx.io
 .2mdn-cn.net
@@ -62,6 +62,8 @@
 .adbutter.net
 .adc.hpplay.cn
 .adcolony.com
+.addthis.com
+.addthiscdn.com
 .addthisedge.com
 .adeng.hpplay.cn
 .adfilter.imtt.qq.com
@@ -87,7 +89,6 @@
 .adnxs.com
 .adping.qq.com
 .adpm.app.qq.com
-.adq.chinaso.com
 .ads-api.duolingo.com
 .ads-pixiv.net
 .ads-twitter.com
@@ -241,7 +242,6 @@
 .cbjs.baidu.com
 .ccs.umeng.com
 .cdn.banclip.com
-.cdn.pocoiq.cn
 .cdp.cloud.unity3d.com
 .cfts1tifqr.com
 .china-caa.org
@@ -284,7 +284,6 @@
 .cxhub.ru
 .da.hunantv.com
 .da.mgtv.com
-.das-rpt-log.ucloud.cn
 .data.flurry.com
 .data.mistat.india.xiaomi.com
 .data.mistat.intl.xiaomi.com
@@ -295,7 +294,6 @@
 .decide.mixpanel.com
 .demdex.net
 .dig.bdurl.net
-.dn-growing.qbox.me
 .doubleclick-cn.net
 .doubleclick.cn
 .doubleclick.com
@@ -516,7 +514,6 @@
 .nsclickvideo.baidu.com
 .obs.mts.ru
 .oc.umeng.com
-.oct.pocoiq.cn
 .ogury.co
 .ogury.com
 .onesignal.com
@@ -631,7 +628,6 @@
 .spotxchange.com
 .ssacdn.com
 .ssp.api.tappx.com
-.stat.chinaso.com
 .stat.m.jd.com
 .stat.y.qq.com
 .stat.youku.com
@@ -845,16 +841,6 @@ openai.qualtrics.com
 p3-ad-sign.byteimg.com
 p6-ad-sign.byteimg.com
 p9-ad-sign.byteimg.com
-pinggai0.caixin.com
-pinggai1.caixin.com
-pinggai2.caixin.com
-pinggai3.caixin.com
-pinggai4.caixin.com
-pinggai5.caixin.com
-pinggai6.caixin.com
-pinggai7.caixin.com
-pinggai8.caixin.com
-pinggai9.caixin.com
 pixel.rustore.ru
 pixel.yandex.com
 prodvizhenie-adv.ozon.ru
