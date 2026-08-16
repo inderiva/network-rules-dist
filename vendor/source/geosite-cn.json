@@ -1561,6 +1561,7 @@
         "applestore.com.cn",
         "appletv4.cn",
         "appletv4.com.cn",
+        "applogcdn.com",
         "applysquare.com",
         "applysquare.net",
         "appserviceenvironment.cn",
@@ -6902,6 +6903,7 @@
         "sdo.com",
         "sealsuite.com",
         "sealsuite.net",
+        "searchpstatp.com",
         "searchstatic.com",
         "searchtoutiaolive.com",
         "seasungames.cn",
@@ -9146,14 +9148,14 @@
         "zztfly.com"
       ],
       "domain_regex": [
-        "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
-        "^nis.+\\.10010\\.com$",
-        "^.+-mihayo\\.akamaized\\.net$",
-        "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.googlevideo\\.com$",
-        "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$",
-        ".+\\.awsdns-cn-[0-9][a-e0-9]\\.cn$",
         "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.xn--ngstr-lra8j\\.com$",
-        ".+\\.awsdns-cn-[0-9][0-9]\\.(biz|com|net|top)$"
+        "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$",
+        ".+\\.awsdns-cn-[0-9][0-9]\\.(biz|com|net|top)$",
+        "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.googlevideo\\.com$",
+        "^nis.+\\.10010\\.com$",
+        ".+\\.awsdns-cn-[0-9][a-e0-9]\\.cn$",
+        "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
+        "^.+-mihayo\\.akamaized\\.net$"
       ]
     }
   ]

@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9139
+# TOTAL: 9141
 
 ..alibaba
 ..alipay
@@ -938,6 +938,7 @@
 .applestore.com.cn
 .appletv4.cn
 .appletv4.com.cn
+.applogcdn.com
 .applysquare.com
 .applysquare.net
 .appserviceenvironment.cn
@@ -6279,6 +6280,7 @@
 .sdo.com
 .sealsuite.com
 .sealsuite.net
+.searchpstatp.com
 .searchstatic.com
 .searchtoutiaolive.com
 .seasungames.cn
