@@ -114,7 +114,11 @@ test('automated updates report exact dispatched validation before merging', asyn
   const validation = updateWorkflow.indexOf('gh run watch "$run_id" --exit-status');
   const status = updateWorkflow.indexOf('"repos/$GITHUB_REPOSITORY/statuses/$head_sha"');
   const merge = updateWorkflow.indexOf('gh pr merge "$pr_number" --squash --delete-branch');
+  const publication = updateWorkflow.indexOf('gh workflow run publish.yml --ref main');
+  const publicationWatch = updateWorkflow.indexOf('gh run watch "$publish_run_id" --exit-status');
   assert.ok(validation >= 0 && validation < status && status < merge);
+  assert.ok(merge < publication && publication < publicationWatch);
+  assert.match(updateWorkflow, /select\(\.headSha == \\"\$merged_sha\\"\)/);
   assert.doesNotMatch(validateWorkflow, /gh pr checks|merge-automated-update/);
 });
 
