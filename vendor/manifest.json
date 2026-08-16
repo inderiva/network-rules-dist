@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-08-15T20:42:24.635Z",
+  "updated_at": "2026-08-16T04:11:39.223Z",
   "sing_box_version": "1.13.4",
   "sources": [
     {
       "tag": "geosite-cn",
       "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
-      "sha256": "de94a025b5fd497b58ec0365c8481bee22ffb1b9d0f5b84d88dd0d8b3c1165c7",
-      "entries": 9147
+      "sha256": "0d712c3e1d8cac4916c45cc4793b88eee5832d0cde2cd220eb6746d6f621539f",
+      "entries": 9149
     },
     {
       "tag": "geosite-category-ads-all",
