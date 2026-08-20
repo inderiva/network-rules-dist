@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9154
+# TOTAL: 9123
 
 ..alibaba
 ..alipay
@@ -5327,7 +5327,6 @@
 .monitor.uu.qq.com
 .mooc.cn
 .moocollege.com
-.moonshot.ai
 .moonshot.cn
 .moonvy.com
 .moonvy.cool
@@ -8555,7 +8554,6 @@ ads3-normal.zijieapi.com
 ads5-normal-hl.zijieapi.com
 ads5-normal.zijieapi.com
 adservice.google.com
-afcs.dell.com
 ai.zhaomi.cn
 alibaba.cdn.steampipe.steamcontent.com
 amp-api-edge-lb-cn.itunes-apple.com.akadns.net
@@ -8653,7 +8651,6 @@ clickserver.googleads.com
 client-api.itunes.apple.com
 clientflow.apple.com
 clientflow.apple.com.akadns.net
-clientperipherals.dell.com
 clientservices.googleapis.com
 cma.itunes.apple.com
 cn-smp-paymentservices.apple.com
@@ -8680,7 +8677,6 @@ cstat.cdn-apple.com
 ctdsb.clouddiffuse.xyz
 ctldl.windowsupdate.com
 cueme-api.quark.cn
-customization-cdn.dell.com
 dartsearch-cn.net
 dc1-cert.ksn.kaspersky-labs.com
 dc1-file.ksn.kaspersky-labs.com
@@ -8688,14 +8684,12 @@ dc1-pp.ksn.kaspersky-labs.com
 dc1-st.ksn.kaspersky-labs.com
 dc1.ksn.kaspersky-labs.com
 dd-cdn.origin-apple.com.akadns.net
-dds.dell.com
 dejavu.apple.com
 developer.microsoft.com
 devimages-cdn.apple.com
 devstreaming-cdn.apple.com
 dg-meta.video.google.com
 discussionschinese.apple.com
-dl.dell.com
 dl.google.com
 dl.l.google.com
 dnl-00.geo.kaspersky.com
@@ -8728,11 +8722,7 @@ download.visualstudio.microsoft.com
 downloaddispatch.itunes.apple.com
 dreamspark.download.prss.microsoft.com
 dreamsparkuat.download.prss.microsoft.com
-ea2cn-dev-outlet.dell.com
-ea2cn-prod-outlet.dell.com
-ea2cn-staging-outlet.dell.com
 edge.geo.kaspersky.com
-emoi-cncdn.bing.com
 end-api.shallow.ink
 end.shallow.ink
 enrichgw.10010.com
@@ -8740,23 +8730,16 @@ entitlements-edge.itunes.apple.com
 epicgames-download1-1251447533.file.myqcloud.com
 experiments.apple.com
 f.c2r.ts.cdn.office.net
-fcs.dell.com
 fides-pol.apple.com
 firebase-settings.crashlytics.com
 fontfiles.googleapis.com
 fonts.googleapis.com
 fonts.gstatic.com
 fpinit.itunes.apple.com
-fta.dell.com
-ftaapj.dell.com
-ftaemea.dell.com
-ftasitapj.dell.com
 g0.gstatic.com
 g1.gstatic.com
 g2.gstatic.com
 g3.gstatic.com
-gbxgateway-dev.dell.com
-gbxgateway.dell.com
 gog.qtlglb.com
 gonglchuangl.net
 gongyichuangyi.net
@@ -8809,7 +8792,6 @@ guzzoni.smoot.apple.com
 hap.10010.com
 hospital.pku.edu.cn
 hs.wosms.cn
-i.dell.com
 i.pki.goog
 id6.me
 images-cn-8.ssl-images-amazon.com
@@ -8907,7 +8889,6 @@ musicstatus.music.apple.com
 mvod.itunes.apple.com
 myapp.itunes.apple.com
 myvs.download.prss.microsoft.com
-nexus.dell.com
 np-edge.itunes.apple.com
 ntp.aliyun.com
 ntp.tencent.com
@@ -8939,7 +8920,6 @@ oscdn.origin-apple.com.akadns.net
 osrelease.download.prss.microsoft.com
 osxapps.itunes.apple.com
 osxapps.itunes.g.aaplimg.com
-p.cdn.persaas.dell.com
 p00.upd.kaspersky.com
 p01.upd.kaspersky.com
 p02.upd.kaspersky.com
@@ -9041,7 +9021,6 @@ s4.mzstatic.com
 s5.mzstatic.com
 safebrowsing-cache.google.com
 safebrowsing.googleapis.com
-scene7-cdn.dell.com
 sdx.microsoft.com
 se-edge.itunes.apple.com
 se2.itunes.apple.com
@@ -9055,11 +9034,7 @@ sf-api-token-service.itunes.apple.com
 sh-pod2-smp-device.apple.com
 shazam-insights.cdn-apple.com
 shell.cdn.office.net
-si.cdn.dell.com
-sm.dell.com
 smp-device-content.apple.com
-snp.cdn.dell.com
-snpi.dell.com
 software.download.prss.microsoft.com
 sp.itunes.apple.com
 speedysub.music.apple.com
@@ -9088,7 +9063,6 @@ study.163.com
 su.itunes.apple.com
 support-china.apple-support.akadns.net
 support.apple.com
-supportassist.dell.com
 surface.download.prss.microsoft.com
 surface.downloads.prss.microsoft.com
 swallow-apple-com.v.aaplimg.com
@@ -9113,7 +9087,6 @@ tj-pod2-smp-device.apple.com
 tj-pod3-smp-device.apple.com
 tlu.dl.delivery.mp.microsoft.com
 tools.google.com
-tp.louisvuitton.com
 trts.baishancdnx.cn
 ubisoftconnect.eo-edgefunctions7.com
 universal-activity-service.itunes.apple.com
@@ -9122,7 +9095,6 @@ update.googleapis.com
 updates-http.cdn-apple.com
 updates-http.cdn-apple.com.akadns.net
 updates.cdn-apple.com
-uplaypc-s-ubisoft.cdn.ubi.com
 uplaypc-s-ubisoft.cdn.ubionline.com.cn
 upp.itunes.apple.com
 valid.apple.com
@@ -9139,13 +9111,10 @@ weather-map2.apple.com
 weatherkit.apple.com
 windbg.download.prss.microsoft.com
 wlog.kuaishou.com
-www-csb.dell.com
 www-google-analytics.l.google.com
 www-googletagmanager.l.google.com
-www.amd.com
 www.apple.com
 www.apple.com.edgekey.net.globalredir.akadns.net
-www.dell.com
 www.destinationurl.com
 www.entrust.cn
 www.gstatic.com
