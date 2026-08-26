@@ -28,7 +28,7 @@
       "minimum_ipv4": 4000,
       "minimum_ipv6": 1000,
       "maximum_ipv4": 7000,
-      "maximum_ipv6": 3000,
+      "maximum_ipv6": 5000,
       "maximum_change_ratio": 0.25,
       "sentinel": "8.152.0.0/13"
     }

@@ -181,6 +181,6 @@ test('geoip family safety accepts the trusted-transit update and rejects unsafe 
   };
   assert.equal(validateCountSafety(1234, options), 1234);
   assert.throws(() => validateCountSafety(999, options), /超出安全范围/);
-  assert.throws(() => validateCountSafety(3001, options), /超出安全范围/);
+  assert.throws(() => validateCountSafety(geoip.maximum_ipv6 + 1, options), /超出安全范围/);
   assert.throws(() => validateCountSafety(1200, options), /相对上次变化/);
 });
