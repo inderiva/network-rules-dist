@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9123
+# TOTAL: 9124
 
 ..alibaba
 ..alipay
@@ -5172,6 +5172,7 @@
 .meta.law
 .metalrevolution.com
 .metaso.cn
+.metax-tech.com
 .mfcteda.com
 .mfk.com
 .mfuns.cn
