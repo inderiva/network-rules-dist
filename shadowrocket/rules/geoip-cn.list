@@ -1,7 +1,7 @@
 # NAME: geoip-cn
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: rule-set
-# TOTAL: 9631
+# TOTAL: 9636
 
 IP-CIDR,1.0.1.0/24,no-resolve
 IP-CIDR,1.0.2.0/23,no-resolve
@@ -1126,6 +1126,7 @@ IP-CIDR,103.238.24.0/21,no-resolve
 IP-CIDR,103.238.252.0/22,no-resolve
 IP-CIDR,103.238.32.0/21,no-resolve
 IP-CIDR,103.238.40.0/22,no-resolve
+IP-CIDR,103.238.45.0/24,no-resolve
 IP-CIDR,103.238.48.0/21,no-resolve
 IP-CIDR,103.238.56.0/22,no-resolve
 IP-CIDR,103.238.88.0/21,no-resolve
@@ -2827,6 +2828,7 @@ IP-CIDR,123.49.232.0/22,no-resolve
 IP-CIDR,123.49.236.0/24,no-resolve
 IP-CIDR,123.49.240.0/24,no-resolve
 IP-CIDR,123.49.242.0/23,no-resolve
+IP-CIDR,123.49.245.0/24,no-resolve
 IP-CIDR,123.49.248.0/21,no-resolve
 IP-CIDR,123.50.160.0/19,no-resolve
 IP-CIDR,123.52.0.0/14,no-resolve
@@ -3502,6 +3504,7 @@ IP-CIDR,183.91.56.0/24,no-resolve
 IP-CIDR,183.91.61.0/24,no-resolve
 IP-CIDR,183.91.63.0/24,no-resolve
 IP-CIDR,183.92.0.0/14,no-resolve
+IP-CIDR,185.192.56.0/22,no-resolve
 IP-CIDR,185.2.48.0/24,no-resolve
 IP-CIDR,185.2.51.0/24,no-resolve
 IP-CIDR,185.75.173.0/24,no-resolve
@@ -3651,6 +3654,8 @@ IP-CIDR,202.143.16.0/20,no-resolve
 IP-CIDR,202.143.32.0/20,no-resolve
 IP-CIDR,202.143.4.0/22,no-resolve
 IP-CIDR,202.143.56.0/21,no-resolve
+IP-CIDR,202.144.196.0/23,no-resolve
+IP-CIDR,202.144.198.0/24,no-resolve
 IP-CIDR,202.146.160.0/20,no-resolve
 IP-CIDR,202.146.184.0/23,no-resolve
 IP-CIDR,202.146.186.0/24,no-resolve
