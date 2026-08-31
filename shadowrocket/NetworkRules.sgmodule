@@ -354,6 +354,12 @@ DOMAIN-SUFFIX,analytics.umetrip.com,REJECT
 DOMAIN-SUFFIX,analytics.vk.com,REJECT
 DOMAIN-SUFFIX,analytics.vpc.duolingo.com,REJECT
 DOMAIN-SUFFIX,api-adservices.apple.com,REJECT
+DOMAIN-SUFFIX,api-secure.amplitude.com,REJECT
+DOMAIN-SUFFIX,api-secure.eu.amplitude.com,REJECT
+DOMAIN-SUFFIX,api-sr.amplitude.com,REJECT
+DOMAIN-SUFFIX,api-sr.eu.amplitude.com,REJECT
+DOMAIN-SUFFIX,api.amplitude.com,REJECT
+DOMAIN-SUFFIX,api.eu.amplitude.com,REJECT
 DOMAIN-SUFFIX,api2.amplitude.com,REJECT
 DOMAIN-SUFFIX,app-ads-services.com,REJECT
 DOMAIN-SUFFIX,app-analytics-services-att.com,REJECT
@@ -372,6 +378,8 @@ DOMAIN-SUFFIX,apptracer.ru,REJECT
 DOMAIN-SUFFIX,ar.umeng.com,REJECT
 DOMAIN-SUFFIX,ark.letv.com,REJECT
 DOMAIN-SUFFIX,aspect-upush.umeng.com,REJECT
+DOMAIN-SUFFIX,assistant-api.amplitude.com,REJECT
+DOMAIN-SUFFIX,assistant-api.eu.amplitude.com,REJECT
 DOMAIN-SUFFIX,assp.sohu.com,REJECT
 DOMAIN-SUFFIX,atanx.alicdn.com,REJECT
 DOMAIN-SUFFIX,atanx2.alicdn.com,REJECT
@@ -407,7 +415,9 @@ DOMAIN-SUFFIX,casalemedia.com,REJECT
 DOMAIN-SUFFIX,cb.baidu.com,REJECT
 DOMAIN-SUFFIX,cbjs.baidu.com,REJECT
 DOMAIN-SUFFIX,ccs.umeng.com,REJECT
+DOMAIN-SUFFIX,cdn.amplitude.com,REJECT
 DOMAIN-SUFFIX,cdn.banclip.com,REJECT
+DOMAIN-SUFFIX,cdn.eu.amplitude.com,REJECT
 DOMAIN-SUFFIX,cdp.cloud.unity3d.com,REJECT
 DOMAIN-SUFFIX,cfts1tifqr.com,REJECT
 DOMAIN-SUFFIX,china-caa.org,REJECT
@@ -482,6 +492,8 @@ DOMAIN-SUFFIX,eduad.baidu.com,REJECT
 DOMAIN-SUFFIX,eiv.baidu.com,REJECT
 DOMAIN-SUFFIX,emogi.com,REJECT
 DOMAIN-SUFFIX,ems.youku.com,REJECT
+DOMAIN-SUFFIX,engagement-static.amplitude.com,REJECT
+DOMAIN-SUFFIX,engagement-static.eu.amplitude.com,REJECT
 DOMAIN-SUFFIX,ero-advertising.com,REJECT
 DOMAIN-SUFFIX,eroadvertising.com,REJECT
 DOMAIN-SUFFIX,euads-o.api.leiniao.com,REJECT
@@ -540,6 +552,8 @@ DOMAIN-SUFFIX,graph.whatsapp.net,REJECT
 DOMAIN-SUFFIX,growin.cn,REJECT
 DOMAIN-SUFFIX,growingio.cn,REJECT
 DOMAIN-SUFFIX,growingio.com,REJECT
+DOMAIN-SUFFIX,gs.amplitude.com,REJECT
+DOMAIN-SUFFIX,gs.eu.amplitude.com,REJECT
 DOMAIN-SUFFIX,guanggaoad.youku.com,REJECT
 DOMAIN-SUFFIX,gz-data.com,REJECT
 DOMAIN-SUFFIX,gzads.com,REJECT
@@ -597,6 +611,8 @@ DOMAIN-SUFFIX,kaprila.com,REJECT
 DOMAIN-SUFFIX,kepler-37b.com,REJECT
 DOMAIN-SUFFIX,kurogames-ads.com,REJECT
 DOMAIN-SUFFIX,kuyun.com,REJECT
+DOMAIN-SUFFIX,lab.amplitude.com,REJECT
+DOMAIN-SUFFIX,lab.eu.amplitude.com,REJECT
 DOMAIN-SUFFIX,ladsp.com,REJECT
 DOMAIN-SUFFIX,leanplum.com,REJECT
 DOMAIN-SUFFIX,lianmeng.360.cn,REJECT
@@ -742,6 +758,8 @@ DOMAIN-SUFFIX,r.mail.ru,REJECT
 DOMAIN-SUFFIX,radar.imgsmail.ru,REJECT
 DOMAIN-SUFFIX,reachmax.cn,REJECT
 DOMAIN-SUFFIX,realsrv.com,REJECT
+DOMAIN-SUFFIX,regionconfig.amplitude.com,REJECT
+DOMAIN-SUFFIX,regionconfig.eu.amplitude.com,REJECT
 DOMAIN-SUFFIX,reke.at.sohu.com,REJECT
 DOMAIN-SUFFIX,relap.mail.ru,REJECT
 DOMAIN-SUFFIX,report.qqweb.qq.com,REJECT
@@ -792,6 +810,8 @@ DOMAIN-SUFFIX,spcode.baidu.com,REJECT
 DOMAIN-SUFFIX,splash-ads.cdn.unity.cn,REJECT
 DOMAIN-SUFFIX,splash-ads.unitychina.cn,REJECT
 DOMAIN-SUFFIX,spotxchange.com,REJECT
+DOMAIN-SUFFIX,sr-client-cfg.amplitude.com,REJECT
+DOMAIN-SUFFIX,sr-client-cfg.eu.amplitude.com,REJECT
 DOMAIN-SUFFIX,ssacdn.com,REJECT
 DOMAIN-SUFFIX,ssp.api.tappx.com,REJECT
 DOMAIN-SUFFIX,stat.m.jd.com,REJECT
