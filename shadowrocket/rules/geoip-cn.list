@@ -1,7 +1,7 @@
 # NAME: geoip-cn
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: rule-set
-# TOTAL: 9624
+# TOTAL: 9621
 
 IP-CIDR,1.0.1.0/24,no-resolve
 IP-CIDR,1.0.2.0/23,no-resolve
@@ -1126,6 +1126,7 @@ IP-CIDR,103.238.24.0/21,no-resolve
 IP-CIDR,103.238.252.0/22,no-resolve
 IP-CIDR,103.238.32.0/21,no-resolve
 IP-CIDR,103.238.40.0/22,no-resolve
+IP-CIDR,103.238.44.0/23,no-resolve
 IP-CIDR,103.238.48.0/21,no-resolve
 IP-CIDR,103.238.56.0/22,no-resolve
 IP-CIDR,103.238.88.0/21,no-resolve
@@ -2431,7 +2432,7 @@ IP-CIDR,117.132.0.0/15,no-resolve
 IP-CIDR,117.134.0.0/17,no-resolve
 IP-CIDR,117.134.128.0/18,no-resolve
 IP-CIDR,117.134.205.0/24,no-resolve
-IP-CIDR,117.134.206.0/23,no-resolve
+IP-CIDR,117.134.207.0/24,no-resolve
 IP-CIDR,117.134.208.0/20,no-resolve
 IP-CIDR,117.134.232.0/21,no-resolve
 IP-CIDR,117.134.240.0/20,no-resolve
@@ -2589,7 +2590,13 @@ IP-CIDR,119.44.0.0/15,no-resolve
 IP-CIDR,119.48.0.0/13,no-resolve
 IP-CIDR,119.57.0.0/16,no-resolve
 IP-CIDR,119.58.0.0/16,no-resolve
-IP-CIDR,119.59.128.0/17,no-resolve
+IP-CIDR,119.59.128.0/24,no-resolve
+IP-CIDR,119.59.130.0/24,no-resolve
+IP-CIDR,119.59.132.0/22,no-resolve
+IP-CIDR,119.59.136.0/21,no-resolve
+IP-CIDR,119.59.144.0/20,no-resolve
+IP-CIDR,119.59.160.0/19,no-resolve
+IP-CIDR,119.59.192.0/18,no-resolve
 IP-CIDR,119.60.0.0/15,no-resolve
 IP-CIDR,119.62.0.0/16,no-resolve
 IP-CIDR,119.63.32.0/19,no-resolve
@@ -3475,9 +3482,7 @@ IP-CIDR,183.182.11.0/24,no-resolve
 IP-CIDR,183.182.12.0/22,no-resolve
 IP-CIDR,183.182.16.0/23,no-resolve
 IP-CIDR,183.182.23.0/24,no-resolve
-IP-CIDR,183.182.24.0/23,no-resolve
-IP-CIDR,183.182.26.0/24,no-resolve
-IP-CIDR,183.182.28.0/22,no-resolve
+IP-CIDR,183.182.24.0/21,no-resolve
 IP-CIDR,183.182.8.0/23,no-resolve
 IP-CIDR,183.184.0.0/13,no-resolve
 IP-CIDR,183.192.0.0/10,no-resolve
@@ -3586,9 +3591,7 @@ IP-CIDR,202.130.224.0/19,no-resolve
 IP-CIDR,202.130.39.0/24,no-resolve
 IP-CIDR,202.131.16.0/21,no-resolve
 IP-CIDR,202.131.208.0/20,no-resolve
-IP-CIDR,202.131.48.0/22,no-resolve
-IP-CIDR,202.131.54.0/23,no-resolve
-IP-CIDR,202.131.56.0/21,no-resolve
+IP-CIDR,202.131.48.0/20,no-resolve
 IP-CIDR,202.133.32.0/20,no-resolve
 IP-CIDR,202.134.128.0/20,no-resolve
 IP-CIDR,202.134.208.0/20,no-resolve
@@ -8478,12 +8481,7 @@ IP-CIDR6,2406:840:684::/46,no-resolve
 IP-CIDR6,2406:840:688::/45,no-resolve
 IP-CIDR6,2406:840:690::/44,no-resolve
 IP-CIDR6,2406:840:6a0::/43,no-resolve
-IP-CIDR6,2406:840:6c0::/48,no-resolve
-IP-CIDR6,2406:840:6c2::/47,no-resolve
-IP-CIDR6,2406:840:6c4::/46,no-resolve
-IP-CIDR6,2406:840:6c8::/45,no-resolve
-IP-CIDR6,2406:840:6d0::/44,no-resolve
-IP-CIDR6,2406:840:6e0::/43,no-resolve
+IP-CIDR6,2406:840:6c0::/42,no-resolve
 IP-CIDR6,2406:840:700::/44,no-resolve
 IP-CIDR6,2406:840:70::/45,no-resolve
 IP-CIDR6,2406:840:711::/48,no-resolve
@@ -9273,7 +9271,6 @@ IP-CIDR6,2408:4014::/31,no-resolve
 IP-CIDR6,2408:4016:1000::/36,no-resolve
 IP-CIDR6,2408:4016:100::/40,no-resolve
 IP-CIDR6,2408:4016:10::/44,no-resolve
-IP-CIDR6,2408:4016:1::/48,no-resolve
 IP-CIDR6,2408:4016:2000::/35,no-resolve
 IP-CIDR6,2408:4016:200::/39,no-resolve
 IP-CIDR6,2408:4016:20::/43,no-resolve
