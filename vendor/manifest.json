@@ -1,11 +1,11 @@
 {
-  "updated_at": "2026-09-06T22:09:06.293Z",
+  "updated_at": "2026-09-07T22:52:16.373Z",
   "sing_box_version": "1.13.4",
   "sources": [
     {
       "tag": "geosite-cn",
       "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
-      "sha256": "f657669be37bf136f97e6c0cacede9bf735523427abd21d58ac34ca5ec5d92db",
+      "sha256": "8cc1538a775d170e644afd0e56e60b50805223aaeb462cdbd19af97af4ca94ae",
       "entries": 9194
     },
     {
@@ -20,10 +20,10 @@
         "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt",
         "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china6.txt"
       ],
-      "sha256": "8704aed86286562a0a8ac0a970de7db0bf2a890da7d56340dec41851330017ae",
-      "entries": 9629,
-      "ipv4": 6234,
-      "ipv6": 3395
+      "sha256": "a25648c221f8b12b41ce168c739ebc3a7b1d95d08f199aa31628a33f2e61822b",
+      "entries": 9639,
+      "ipv4": 6238,
+      "ipv6": 3401
     }
   ]
 }
