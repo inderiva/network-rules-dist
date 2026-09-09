@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9186
+# TOTAL: 9188
 
 ..alibaba
 ..alipay
@@ -8281,6 +8281,7 @@
 .yuanbei.biz
 .yuanfudao.com
 .yuanqi.tencent.com
+.yuanqidesk.com
 .yuanshen.com
 .yuansouti.com
 .yuantiku.com
@@ -8433,6 +8434,7 @@
 .zhcw.com
 .zhenai.com
 .zhfund.com
+.zhhainiao.com
 .zhi10.com
 .zhibo8.cc
 .zhibo8.com
