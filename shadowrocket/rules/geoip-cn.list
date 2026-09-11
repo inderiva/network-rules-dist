@@ -1,7 +1,7 @@
 # NAME: geoip-cn
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: rule-set
-# TOTAL: 9708
+# TOTAL: 9712
 
 IP-CIDR,1.0.1.0/24,no-resolve
 IP-CIDR,1.0.2.0/23,no-resolve
@@ -5553,6 +5553,7 @@ IP-CIDR,43.224.68.0/22,no-resolve
 IP-CIDR,43.224.72.0/22,no-resolve
 IP-CIDR,43.224.80.0/22,no-resolve
 IP-CIDR,43.225.120.0/22,no-resolve
+IP-CIDR,43.225.175.0/24,no-resolve
 IP-CIDR,43.225.180.0/22,no-resolve
 IP-CIDR,43.225.208.0/22,no-resolve
 IP-CIDR,43.225.216.0/21,no-resolve
@@ -6129,7 +6130,9 @@ IP-CIDR,59.152.64.0/20,no-resolve
 IP-CIDR,59.153.136.0/22,no-resolve
 IP-CIDR,59.153.152.0/22,no-resolve
 IP-CIDR,59.153.164.0/22,no-resolve
-IP-CIDR,59.153.168.0/21,no-resolve
+IP-CIDR,59.153.168.0/22,no-resolve
+IP-CIDR,59.153.173.0/24,no-resolve
+IP-CIDR,59.153.174.0/23,no-resolve
 IP-CIDR,59.153.176.0/20,no-resolve
 IP-CIDR,59.153.192.0/22,no-resolve
 IP-CIDR,59.153.32.0/22,no-resolve
@@ -9360,6 +9363,7 @@ IP-CIDR6,2408:4014::/31,no-resolve
 IP-CIDR6,2408:4016:1000::/36,no-resolve
 IP-CIDR6,2408:4016:100::/40,no-resolve
 IP-CIDR6,2408:4016:10::/44,no-resolve
+IP-CIDR6,2408:4016:1::/48,no-resolve
 IP-CIDR6,2408:4016:2000::/35,no-resolve
 IP-CIDR6,2408:4016:200::/39,no-resolve
 IP-CIDR6,2408:4016:20::/43,no-resolve
