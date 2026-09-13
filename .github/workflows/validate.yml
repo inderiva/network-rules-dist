@@ -14,7 +14,10 @@ jobs:
     # The update workflow already dispatches an exact-commit validation and
     # waits for it before merging. Avoid a second pull_request run whose
     # result can be stale or misleading.
-    if: github.event_name != 'pull_request' || !startsWith(github.head_ref, 'automation/')
+    if: >-
+      github.event_name != 'pull_request' ||
+      github.event.pull_request.head.ref != 'automation/update-public-rules' ||
+      github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
