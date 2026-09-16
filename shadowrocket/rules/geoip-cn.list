@@ -1,7 +1,7 @@
 # NAME: geoip-cn
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: rule-set
-# TOTAL: 9736
+# TOTAL: 9741
 
 IP-CIDR,1.0.1.0/24,no-resolve
 IP-CIDR,1.0.2.0/23,no-resolve
@@ -2035,7 +2035,16 @@ IP-CIDR,110.232.32.0/19,no-resolve
 IP-CIDR,110.236.0.0/15,no-resolve
 IP-CIDR,110.240.0.0/12,no-resolve
 IP-CIDR,110.34.40.0/21,no-resolve
-IP-CIDR,110.40.0.0/14,no-resolve
+IP-CIDR,110.40.0.0/15,no-resolve
+IP-CIDR,110.42.0.0/20,no-resolve
+IP-CIDR,110.42.128.0/17,no-resolve
+IP-CIDR,110.42.16.0/24,no-resolve
+IP-CIDR,110.42.18.0/23,no-resolve
+IP-CIDR,110.42.20.0/22,no-resolve
+IP-CIDR,110.42.24.0/21,no-resolve
+IP-CIDR,110.42.32.0/19,no-resolve
+IP-CIDR,110.42.64.0/18,no-resolve
+IP-CIDR,110.43.0.0/16,no-resolve
 IP-CIDR,110.44.12.0/22,no-resolve
 IP-CIDR,110.44.144.0/20,no-resolve
 IP-CIDR,110.48.0.0/16,no-resolve
@@ -6319,7 +6328,6 @@ IP-CIDR6,2001:df0:f8c0::/48,no-resolve
 IP-CIDR6,2001:df1:5280::/48,no-resolve
 IP-CIDR6,2001:df1:5b80::/48,no-resolve
 IP-CIDR6,2001:df1:6180::/48,no-resolve
-IP-CIDR6,2001:df1:61c0::/48,no-resolve
 IP-CIDR6,2001:df1:d180::/48,no-resolve
 IP-CIDR6,2001:df1:f480::/48,no-resolve
 IP-CIDR6,2001:df2:5780::/48,no-resolve
@@ -8383,21 +8391,15 @@ IP-CIDR6,2406:840:1801::/48,no-resolve
 IP-CIDR6,2406:840:1802::/47,no-resolve
 IP-CIDR6,2406:840:1804::/46,no-resolve
 IP-CIDR6,2406:840:1808::/45,no-resolve
+IP-CIDR6,2406:840:180::/41,no-resolve
 IP-CIDR6,2406:840:1810::/44,no-resolve
-IP-CIDR6,2406:840:181::/48,no-resolve
 IP-CIDR6,2406:840:1820::/43,no-resolve
-IP-CIDR6,2406:840:182::/47,no-resolve
 IP-CIDR6,2406:840:1840::/42,no-resolve
-IP-CIDR6,2406:840:184::/46,no-resolve
 IP-CIDR6,2406:840:1880::/41,no-resolve
-IP-CIDR6,2406:840:188::/45,no-resolve
 IP-CIDR6,2406:840:18::/45,no-resolve
 IP-CIDR6,2406:840:1900::/40,no-resolve
-IP-CIDR6,2406:840:190::/44,no-resolve
 IP-CIDR6,2406:840:1a00::/39,no-resolve
-IP-CIDR6,2406:840:1a0::/43,no-resolve
 IP-CIDR6,2406:840:1c00::/38,no-resolve
-IP-CIDR6,2406:840:1c0::/42,no-resolve
 IP-CIDR6,2406:840:2000::/39,no-resolve
 IP-CIDR6,2406:840:201::/48,no-resolve
 IP-CIDR6,2406:840:202::/47,no-resolve
@@ -8637,7 +8639,10 @@ IP-CIDR6,2406:840:9101::/48,no-resolve
 IP-CIDR6,2406:840:9103::/48,no-resolve
 IP-CIDR6,2406:840:9104::/46,no-resolve
 IP-CIDR6,2406:840:9108::/45,no-resolve
-IP-CIDR6,2406:840:9110::/44,no-resolve
+IP-CIDR6,2406:840:9111::/48,no-resolve
+IP-CIDR6,2406:840:9112::/47,no-resolve
+IP-CIDR6,2406:840:9114::/46,no-resolve
+IP-CIDR6,2406:840:9118::/45,no-resolve
 IP-CIDR6,2406:840:9120::/43,no-resolve
 IP-CIDR6,2406:840:9140::/43,no-resolve
 IP-CIDR6,2406:840:9160::/44,no-resolve
