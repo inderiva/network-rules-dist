@@ -15,12 +15,15 @@ const required = [
   'shadowrocket/rules/geosite-cn-domain.list',
   'shadowrocket/rules/geoip-cn.list',
   'stash/NetworkRules.stoverride',
+  'stash/NetworkRules-ChinaDirect.stoverride',
   'sing-box/route.local.fragment.json',
+  'sing-box/route.resolve.local.fragment.json',
   'sing-box/rules/geosite-cn.srs',
   'sing-box/rules/geosite-category-ads-all.srs',
   'sing-box/rules/geoip-cn.srs'
 ];
-if (!privateProfile) required.push('shadowrocket/NetworkRules.conf', 'sing-box/route.remote.fragment.json');
+if (!privateProfile) required.push('shadowrocket/NetworkRules.conf');
+if (rulesBaseUrl) required.push('sing-box/route.remote.fragment.json', 'sing-box/route.resolve.remote.fragment.json');
 for (const path of required) await readFile(resolve(outputDir, path));
 
 const publicCustom = await readJson(resolve(rootDir, 'src/rules.json'));
@@ -41,18 +44,22 @@ if (adsIndex < 0 || cnIndex < 0 || adsIndex >= cnIndex) throw new Error('广告�
 
 const checkDirectory = await mkdtemp(join(tmpdir(), 'network-rules-dist-check-'));
 try {
-  const checkRoute = structuredClone(route.route);
-  for (const ruleSet of checkRoute.rule_set) ruleSet.path = resolve(outputDir, 'sing-box', ruleSet.path);
+  const binary = await ensureSingBox();
   const configPath = resolve(checkDirectory, 'config.json');
-  await writeJson(configPath, {
-    log: { disabled: true },
-    outbounds: [
-      { type: 'direct', tag: targets.sing_box.direct_outbound },
-      { type: 'direct', tag: targets.sing_box.proxy_outbound }
-    ],
-    route: checkRoute
-  });
-  await execFileAsync(await ensureSingBox(), ['check', '--config', configPath]);
+  for (const name of ['route.local.fragment.json', 'route.resolve.local.fragment.json']) {
+    const { route: checkRoute } = await readJson(resolve(outputDir, 'sing-box', name));
+    for (const ruleSet of checkRoute.rule_set) ruleSet.path = resolve(outputDir, 'sing-box', ruleSet.path);
+    await writeJson(configPath, {
+      log: { disabled: true },
+      dns: { servers: [{ type: 'hosts', tag: targets.sing_box.direct_dns_server }] },
+      outbounds: [
+        { type: 'direct', tag: targets.sing_box.direct_outbound },
+        { type: 'direct', tag: targets.sing_box.proxy_outbound }
+      ],
+      route: checkRoute
+    });
+    await execFileAsync(binary, ['check', '--config', configPath]);
+  }
 } finally {
   await rm(checkDirectory, { recursive: true, force: true });
 }
@@ -73,7 +80,7 @@ if (!privateProfile) {
   const configAdsIndex = shadowrocketConfig.indexOf('/geosite-category-ads-all-domain.list,REJECT');
   const configCnIndex = shadowrocketConfig.indexOf('/geosite-cn-domain.list,DIRECT');
   const configGeoipIndex = shadowrocketConfig.indexOf('/geoip-cn.list,DIRECT');
-  const configFinalIndex = shadowrocketConfig.indexOf('FINAL,PROXY');
+  const configFinalIndex = shadowrocketConfig.indexOf('FINAL,PROXY,dns-failed');
   if (configAdsIndex < 0 || configCnIndex < 0 || configGeoipIndex < 0 || configFinalIndex < 0
     || !(configAdsIndex < configCnIndex && configCnIndex < configGeoipIndex && configGeoipIndex < configFinalIndex)) {
     throw new Error('Shadowrocket 主配置路由顺序错误');
@@ -91,8 +98,9 @@ const shadowrocketIp = await readFile(resolve(outputDir, 'shadowrocket/rules/geo
 if (!shadowrocketAds.includes('p3-ad-sign.byteimg.com') || !shadowrocketCn.includes('p3-ad-sign.byteimg.com')) {
   throw new Error('Shadowrocket domain-set 缺少重叠规则哨兵');
 }
-if (!/^IP-CIDR,.*no-resolve$/m.test(shadowrocketIp) || !/^IP-CIDR6,.*no-resolve$/m.test(shadowrocketIp)) {
-  throw new Error('Shadowrocket IP rule-set 格式错误');
+if (!/^IP-CIDR,[\d./]+$/m.test(shadowrocketIp) || !/^IP-CIDR6,[\da-f:/]+$/m.test(shadowrocketIp)
+  || shadowrocketIp.includes('no-resolve')) {
+  throw new Error('Shadowrocket 国内 IP rule-set 必须允许解析域名');
 }
 
 const stash = await readFile(resolve(outputDir, 'stash/NetworkRules.stoverride'), 'utf8');

@@ -82,10 +82,10 @@ function shadowrocketDomainSet(rules) {
   ]);
 }
 
-function shadowrocketRuleSet(rules) {
+function shadowrocketRuleSet(rules, { resolveIp = false } = {}) {
   return uniqueSorted([
     ...(rules.domain_keyword ?? []).map((value) => `DOMAIN-KEYWORD,${value}`),
-    ...rules.ip_cidr.map((value) => `${value.includes(':') ? 'IP-CIDR6' : 'IP-CIDR'},${value},no-resolve`)
+    ...rules.ip_cidr.map((value) => `${value.includes(':') ? 'IP-CIDR6' : 'IP-CIDR'},${value}${resolveIp ? '' : ',no-resolve'}`)
   ]);
 }
 
@@ -175,16 +175,20 @@ const remoteRuleSets = singRuleSets.map((item) => ({
   url: `${rulesBaseUrl}/sing-box/rules/${item.tag}.srs`,
   update_interval: '1d'
 }));
-function routeFragment(ruleSets) {
+function routeFragment(ruleSets, resolveIp = false) {
   return {
     route: {
       rule_set: ruleSets,
-      rules: routeRules
+      rules: routeRules.flatMap((rule) =>
+        resolveIp && rule.rule_set === 'geoip-cn' ? [{ action: 'resolve' }, rule] : [rule]
+      )
     }
   };
 }
 await writeJson(resolve(singBoxDir, 'route.local.fragment.json'), routeFragment(localRuleSets));
 if (rulesBaseUrl) await writeJson(resolve(singBoxDir, 'route.remote.fragment.json'), routeFragment(remoteRuleSets));
+await writeJson(resolve(singBoxDir, 'route.resolve.local.fragment.json'), routeFragment(localRuleSets, true));
+if (rulesBaseUrl) await writeJson(resolve(singBoxDir, 'route.resolve.remote.fragment.json'), routeFragment(remoteRuleSets, true));
 await writeJson(resolve(singBoxDir, 'dns.fragment.json'), {
   dns: {
     rules: [
@@ -217,26 +221,42 @@ await addStashProvider('geoip-cn', 'ipcidr', upstream.cnIp.ip_cidr, 'direct');
 const stashOverrideProviders = stashProviders.filter(({ name }) =>
   name.startsWith('geosite-category-ads-all-') || (privateProfile && name.startsWith('custom-'))
 );
-const stashOverride = [
-  "name: 'Network Rules'",
-  privateProfile
-    ? "desc: '私有覆盖与广告拦截，不修改通用国内直连策略'"
-    : "desc: '仅添加广告拦截，不修改直连、代理或最终策略'",
-  ...(homepage ? [`homepage: '${homepage}'`] : []),
-  'rule-providers:',
-  ...stashOverrideProviders.flatMap(({ name, behavior, relative }) => [
-    `  ${name}:`,
-    `    behavior: ${behavior}`,
-    '    format: yaml',
-    `    path: ${rulesBaseUrl ? `./rules/${stashCacheNamespace}/${name}.yaml` : `./${relative}`}`,
-    ...(rulesBaseUrl ? [`    url: ${rulesBaseUrl}/stash/${relative}`] : []),
-    '    interval: 86400'
-  ]),
-  'rules:',
-  ...stashOverrideProviders.map(({ name, action }) => `  - RULE-SET,${name},${clientPolicy(action, targets.stash.proxy_policy)}`),
-  ''
-].join('\n');
-await writeAtomic(resolve(stashDir, 'NetworkRules.stoverride'), stashOverride);
+function stashOverride(providers, chinaDirect = false) {
+  return [
+    chinaDirect ? "name: 'Network Rules - China Direct'" : "name: 'Network Rules'",
+    chinaDirect
+      ? `desc: '${privateProfile ? '私有例外、' : ''}广告拦截和国内直连；其他流量沿用主配置'`
+      : privateProfile
+        ? "desc: '私有覆盖与广告拦截，不修改通用国内直连策略'"
+        : "desc: '仅添加广告拦截，不修改直连、代理或最终策略'",
+    ...(homepage ? [`homepage: '${homepage}'`] : []),
+    'rule-providers:',
+    ...providers.flatMap(({ name, behavior, relative }) => [
+      `  ${name}:`,
+      `    behavior: ${behavior}`,
+      '    format: yaml',
+      `    path: ${rulesBaseUrl ? `./rules/${stashCacheNamespace}/${name}.yaml` : `./${relative}`}`,
+      ...(rulesBaseUrl ? [`    url: ${rulesBaseUrl}/stash/${relative}`] : []),
+      '    interval: 86400'
+    ]),
+    'rules:',
+    ...providers.map(({ name, action }) => `  - RULE-SET,${name},${clientPolicy(action, targets.stash.proxy_policy)}`),
+    ''
+  ].join('\n');
+}
+await writeAtomic(resolve(stashDir, 'NetworkRules.stoverride'), stashOverride(stashOverrideProviders));
+await writeAtomic(resolve(stashDir, 'NetworkRules-ChinaDirect.stoverride'), stashOverride(
+  stashProviders.filter(({ name }) => privateProfile || !name.startsWith('custom-')), true
+));
+await writeAtomic(resolve(stashDir, 'USAGE.md'), `# Stash
+
+选择一个覆写文件启用：
+
+- \`NetworkRules.stoverride\`：${privateProfile ? '私有例外和广告拦截' : '广告拦截'}，国内分流由主配置负责。
+- \`NetworkRules-ChinaDirect.stoverride\`：${privateProfile ? '私有例外、' : ''}广告拦截、国内域名和国内 IP 直连；其余流量沿用主配置的最终策略。国内 IP 规则会在需要时触发 DNS 解析。
+
+两个文件二选一。Stash 会把覆写的规则插到主配置规则前面；如果主配置已有必须优先代理的特殊域名，应先核对顺序。节点、DNS 和最终策略继续由主配置维护。${rulesBaseUrl ? '' : '\n\n本地导入请保留整个 stash 目录及 rules 子目录；只导入覆写文件不足以加载本地规则。'}
+`);
 
 const shadowrocketDir = resolve(outputDir, 'shadowrocket');
 await resetDirectory(shadowrocketDir);
@@ -299,7 +319,7 @@ await addShadowrocketSet(
 await addShadowrocketSet(
   'geoip-cn',
   'RULE-SET',
-  shadowrocketRuleSet(upstream.cnIp),
+  shadowrocketRuleSet(upstream.cnIp, { resolveIp: true }),
   'direct',
   '国内直连'
 );
@@ -366,10 +386,28 @@ if (!privateProfile) {
   '# China direct; everything else uses the selected proxy node.',
   `DOMAIN-SET,${rulesBaseUrl}/shadowrocket/rules/geosite-cn-domain.list,DIRECT`,
   `RULE-SET,${rulesBaseUrl}/shadowrocket/rules/geoip-cn.list,DIRECT`,
-  'FINAL,PROXY',
+  'FINAL,PROXY,dns-failed',
   ''
   ].join('\n');
   await writeAtomic(resolve(shadowrocketDir, 'NetworkRules.conf'), shadowrocketMainConfig);
 }
+
+await writeAtomic(resolve(shadowrocketDir, 'USAGE.md'), `# Shadowrocket
+
+${privateProfile ? '本仓库的 `NetworkRules.sgmodule` 只提供私有例外和广告拦截；国内分流需由已启用的主配置负责。可配合公开仓库的 `shadowrocket/NetworkRules.conf` 使用。' : '`NetworkRules.conf` 是国内直连、其余代理的主配置；`NetworkRules.sgmodule` 只是广告模块，不能替代主配置。'}
+
+使用主配置时，把全局路由设为“配置”。国内 IP 清单允许为未收录域名解析 IP；局域网和私有 IP 例外仍使用 no-resolve。公开主配置的最终代理规则带 dns-failed，使本地解析失败的域名仍可交给代理。原生行为需要在 Shadowrocket 中复核。
+`);
+await writeAtomic(resolve(singBoxDir, 'USAGE.md'), `# sing-box
+
+路由片段二选一，不要把两份 rules 数组叠加：
+
+- \`route.local.fragment.json\`${rulesBaseUrl ? ' / `route.remote.fragment.json`' : ''}：保持原有行为。国内域名直连；国内 IP 规则只匹配已有的目标 IP。仅传域名、且主配置未提前解析时，未收录域名继续走主配置的默认出口。
+- \`route.resolve.local.fragment.json\`${rulesBaseUrl ? ' / `route.resolve.remote.fragment.json`' : ''}：在国内 IP 规则前使用主配置的 DNS 路由解析目标，补上未收录国内域名的 IP 分流。sing-box 1.13.4 解析失败会断开请求，不能自动继续走代理；需要可靠的 DNS。
+
+保留原有主配置的 final、DNS 服务器和入站。将所选片段的规则放在主配置兜底规则之前，规则集定义合并到 route.rule_set；有明确代理例外时，应放在通用国内直连规则前面。按需合并 dns.fragment.json，其中引用的 ${targets.sing_box.direct_dns_server} 必须已在主配置定义。单独合并 DNS 片段不会替仅传域名的代理请求预先解析 IP。
+
+规则引用使用本地路径时，同时复制 rules 目录；远程版本需要能访问其下载地址。
+`);
 
 console.log(`已生成 ${profile} 配置：sing-box ${singRuleSets.length} 个规则集、Stash ${stashOverrideProviders.length} 个默认 provider、Shadowrocket ${shadowrocketSets.length} 个规则集`);
