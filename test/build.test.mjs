@@ -63,7 +63,7 @@ test('Shadowrocket main config mirrors the sing-box direct-China final-proxy mod
   const ads = config.indexOf('/geosite-category-ads-all-domain.list,REJECT');
   const cn = config.indexOf('/geosite-cn-domain.list,DIRECT');
   const geoip = config.indexOf('/geoip-cn.list,DIRECT');
-  const final = config.indexOf('FINAL,PROXY');
+  const final = config.indexOf('FINAL,PROXY,dns-failed');
   assert.ok(ads >= 0 && ads < cn && cn < geoip && geoip < final);
   assert.equal((config.match(/^FINAL,/gm) ?? []).length, 1);
   assert.doesNotMatch(config, /FINAL,DIRECT/);
@@ -83,8 +83,9 @@ test('Shadowrocket providers use native domain-set and rule-set formats', async 
   assert.match(ads, /^p3-ad-sign\.byteimg\.com$/m);
   assert.match(cn, /^p3-ad-sign\.byteimg\.com$/m);
   assert.match(cn, /^\.cn$/m);
-  assert.match(ip, /^IP-CIDR,.*no-resolve$/m);
-  assert.match(ip, /^IP-CIDR6,.*no-resolve$/m);
+  assert.match(ip, /^IP-CIDR,[\d./]+$/m);
+  assert.match(ip, /^IP-CIDR6,[\da-f:/]+$/m);
+  assert.doesNotMatch(ip, /no-resolve/);
   assert.doesNotMatch(ads, /,REJECT$/m);
   assert.doesNotMatch(cn, /,DIRECT$/m);
 });
@@ -142,6 +143,19 @@ test('sing-box fragments do not replace unrelated host policy', async () => {
   assert.equal(route.route.rule_set.some((ruleSet) => 'download_detour' in ruleSet), false);
   assert.equal('final' in dns.dns, false);
   assert.equal('strategy' in dns.dns, false);
+});
+
+test('Stash China Direct override puts ads before China rules and preserves the final policy', async () => {
+  const override = await readFile(resolve(rootDir, 'stash/NetworkRules-ChinaDirect.stoverride'), 'utf8');
+  const rules = override.split('\n').map((line) => line.trim()).filter((line) => line.startsWith('- RULE-SET,'));
+  assert.deepEqual(rules, [
+    '- RULE-SET,geosite-category-ads-all-domain,REJECT',
+    '- RULE-SET,geosite-category-ads-all-classical,REJECT',
+    '- RULE-SET,geosite-cn-domain,DIRECT',
+    '- RULE-SET,geosite-cn-classical,DIRECT',
+    '- RULE-SET,geoip-cn,DIRECT'
+  ]);
+  assert.doesNotMatch(override, /no-resolve|\bMATCH,|\bFINAL,/);
 });
 
 test('upstream safety guard rejects broad or suddenly changed data', () => {
