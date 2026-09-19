@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-18T22:39:04.673Z",
+  "updated_at": "2026-09-19T22:20:51.135Z",
   "sing_box_version": "1.13.4",
   "sources": [
     {
@@ -20,7 +20,7 @@
         "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt",
         "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china6.txt"
       ],
-      "sha256": "dc38b99beb75f53cd11af734076cb230a545d7fe5cc78046bacfeeb42350dfa2",
+      "sha256": "94a4ddac4b8754d6898a7c098b01d67bf26be454120e88e27a86b825201999a9",
       "entries": 9661,
       "ipv4": 6250,
       "ipv6": 3411
