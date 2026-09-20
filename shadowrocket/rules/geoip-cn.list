@@ -1,7 +1,7 @@
 # NAME: geoip-cn
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: rule-set
-# TOTAL: 9661
+# TOTAL: 9662
 
 IP-CIDR,1.0.1.0/24
 IP-CIDR,1.0.2.0/23
@@ -2008,6 +2008,7 @@ IP-CIDR,106.75.224.0/19
 IP-CIDR,106.8.0.0/15
 IP-CIDR,106.80.0.0/12
 IP-CIDR,109.244.0.0/16
+IP-CIDR,109.66.22.0/23
 IP-CIDR,110.100.0.0/14
 IP-CIDR,110.104.0.0/13
 IP-CIDR,110.112.0.0/13
