@@ -7160,6 +7160,7 @@
         "sinopecnews.com.cn",
         "sinopecsales.com",
         "sipeed.com",
+        "sjfls6.com",
         "sjwyx.com",
         "skillhub.cn",
         "skimit.net",
@@ -9299,14 +9300,14 @@
         "zzzmap.com"
       ],
       "domain_regex": [
-        "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
-        "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.googlevideo\\.com$",
-        "^nis.+\\.10010\\.com$",
         "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.xn--ngstr-lra8j\\.com$",
+        "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
+        "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$",
+        "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.googlevideo\\.com$",
         ".+\\.awsdns-cn-[0-9][a-e0-9]\\.cn$",
-        "^.+-mihayo\\.akamaized\\.net$",
+        "^nis.+\\.10010\\.com$",
         ".+\\.awsdns-cn-[0-9][0-9]\\.(biz|com|net|top)$",
-        "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$"
+        "^.+-mihayo\\.akamaized\\.net$"
       ]
     }
   ]
