@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9292
+# TOTAL: 9293
 
 ..alibaba
 ..alipay
@@ -6567,6 +6567,7 @@
 .sinopecnews.com.cn
 .sinopecsales.com
 .sipeed.com
+.sjfls6.com
 .sjwyx.com
 .skillhub.cn
 .skimit.net
