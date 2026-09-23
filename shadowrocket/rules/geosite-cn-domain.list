@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9293
+# TOTAL: 9294
 
 ..alibaba
 ..alipay
@@ -8892,6 +8892,7 @@ download.visualstudio.microsoft.com
 downloaddispatch.itunes.apple.com
 dreamspark.download.prss.microsoft.com
 dreamsparkuat.download.prss.microsoft.com
+drivers.amd.com
 edge.geo.kaspersky.com
 end-api.shallow.ink
 end.shallow.ink

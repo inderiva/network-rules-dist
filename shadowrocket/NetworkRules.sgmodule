@@ -288,7 +288,6 @@ DOMAIN-SUFFIX,adsense.com,REJECT
 DOMAIN-SUFFIX,adsensecustomsearchads.com,REJECT
 DOMAIN-SUFFIX,adsenseformobileapps.com,REJECT
 DOMAIN-SUFFIX,adservice.google.com,REJECT
-DOMAIN-SUFFIX,adservice.sigmob.cn,REJECT
 DOMAIN-SUFFIX,adserviceretry.kglink.cn,REJECT
 DOMAIN-SUFFIX,adserviceretry.kugou.com,REJECT
 DOMAIN-SUFFIX,adsfile.qq.com,REJECT
@@ -800,6 +799,7 @@ DOMAIN-SUFFIX,sf3-ttcdn-tos.pstatp.com,REJECT
 DOMAIN-SUFFIX,shhs-ydd8x2.yjrmss.cn,REJECT
 DOMAIN-SUFFIX,shoppingads.cn,REJECT
 DOMAIN-SUFFIX,shuzilm.cn,REJECT
+DOMAIN-SUFFIX,sigmob.cn,REJECT
 DOMAIN-SUFFIX,sigmob.com,REJECT
 DOMAIN-SUFFIX,slog.sina.cn,REJECT
 DOMAIN-SUFFIX,slog.sina.com.cn,REJECT
