@@ -78,12 +78,15 @@ if (Buffer.byteLength(shadowrocket) > 100000) throw new Error('Shadowrocket 默�
 if (!privateProfile) {
   const shadowrocketConfig = await readFile(resolve(outputDir, 'shadowrocket/NetworkRules.conf'), 'utf8');
   const configAdsIndex = shadowrocketConfig.indexOf('/geosite-category-ads-all-domain.list,REJECT');
+  const configLinkedInIndex = shadowrocketConfig.indexOf('DOMAIN-SUFFIX,linkedin.com,PROXY');
   const configCnIndex = shadowrocketConfig.indexOf('/geosite-cn-domain.list,DIRECT');
-  const configGeoipIndex = shadowrocketConfig.indexOf('/geoip-cn.list,DIRECT');
   const configFinalIndex = shadowrocketConfig.indexOf('FINAL,PROXY,dns-failed');
-  if (configAdsIndex < 0 || configCnIndex < 0 || configGeoipIndex < 0 || configFinalIndex < 0
-    || !(configAdsIndex < configCnIndex && configCnIndex < configGeoipIndex && configGeoipIndex < configFinalIndex)) {
+  if (configAdsIndex < 0 || configLinkedInIndex < 0 || configCnIndex < 0 || configFinalIndex < 0
+    || !(configAdsIndex < configLinkedInIndex && configLinkedInIndex < configCnIndex && configCnIndex < configFinalIndex)) {
     throw new Error('Shadowrocket 主配置路由顺序错误');
+  }
+  if (/^RULE-SET,.*geoip-cn\.list,DIRECT/m.test(shadowrocketConfig)) {
+    throw new Error('Shadowrocket 主配置不应使用可能触发本地解析的中国 IP 规则');
   }
   if (/FINAL,DIRECT/.test(shadowrocketConfig) || (shadowrocketConfig.match(/^FINAL,/gm) ?? []).length !== 1) {
     throw new Error('Shadowrocket 主配置必须唯一使用 FINAL,PROXY');
