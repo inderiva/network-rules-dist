@@ -88,6 +88,11 @@ test('Shadowrocket providers use native domain-set and rule-set formats', async 
   assert.match(ads, /^p3-ad-sign\.byteimg\.com$/m);
   assert.match(cn, /^p3-ad-sign\.byteimg\.com$/m);
   assert.match(cn, /^\.cn$/m);
+  assert.match(cn, /^\.alibaba$/m);
+  assert.doesNotMatch(cn, /^\.\./m);
+  const stash = await readFile(resolve(rootDir, 'stash/rules/geosite-cn-domain.yaml'), 'utf8');
+  assert.match(stash, /^  - '\+\.alibaba'$/m);
+  assert.doesNotMatch(stash, /'\+\.\./);
   assert.match(ip, /^IP-CIDR,[\d./]+$/m);
   assert.match(ip, /^IP-CIDR6,[\da-f:/]+$/m);
   assert.doesNotMatch(ip, /no-resolve/);

@@ -3,24 +3,6 @@
 # TYPE: domain-set
 # TOTAL: 9294
 
-..alibaba
-..alipay
-..anquan
-..baidu
-..citic
-..icbc
-..shouji
-..sina
-..sohu
-..taobao
-..tmall
-..unicom
-..weibo
-..xihuan
-..xn--8y0a063a
-..xn--9krt00a
-..xn--fiq64b
-..yun
 .0033.cn
 .00cdn.com
 .0123456789.com
@@ -724,6 +706,7 @@
 .ali-restore.net
 .ali213.net
 .aliapp.org
+.alibaba
 .alibaba-inc.com
 .alibaba.com
 .alibabacapital.com
@@ -767,6 +750,7 @@
 .alimmdn.com
 .alios.cn
 .alipan.com
+.alipay
 .alipay-eco.com
 .alipay.cn
 .alipay.com
@@ -875,6 +859,7 @@
 .anlaiye.com
 .anlaiye.com.cn
 .anmo.com
+.anquan
 .anquan.org
 .anquanke.com
 .anruan.com
@@ -1099,6 +1084,7 @@
 .baichuan-sdk.alicdn.com
 .baicizhan.com
 .baicizhan.org
+.baidu
 .baidu-cdn.cn
 .baidu-cdn.com
 .baidu-cdn.net
@@ -2010,6 +1996,7 @@
 .cisco.cn
 .cisco.com.cn
 .citibank.com.cn
+.citic
 .citic-prudential.com.cn
 .citicbank.com
 .citiccapital.com
@@ -4007,6 +3994,7 @@
 .ibytepluses.com.cn
 .ica-alliance.org
 .icaidao.com
+.icbc
 .icbc.com.cn
 .icbccs.com.cn
 .icbccstz.com.cn
@@ -6513,6 +6501,7 @@
 .shopoppo.com.cn
 .shoppingads.cn
 .shopss.com
+.shouji
 .shoujihuifu.com
 .shouqianba.com
 .shoutanjjj.com
@@ -6546,6 +6535,7 @@
 .sifou.com
 .simei8.com
 .simuwang.com
+.sina
 .sina.cn
 .sina.com
 .sina.com.cn
@@ -6626,6 +6616,7 @@
 .sogoucdn.com
 .sogoucdndl.com
 .sogouimecdn.com
+.sohu
 .sohu.com
 .sohucs.com
 .sojson.com
@@ -6843,6 +6834,7 @@
 .tanwan.com
 .tanx.com
 .tao123.com
+.taobao
 .taobao.com
 .taobao.net
 .taobao.org
@@ -7137,6 +7129,7 @@
 .tlivesource.com
 .tm2a8.cn
 .tm7sg.cn
+.tmall
 .tmall.com
 .tmalltv.com
 .tmcdn.net
@@ -7395,6 +7388,7 @@
 .uneed.com
 .uneedx.com
 .unicloud.com
+.unicom
 .unicompayment.com
 .unigroup.com.cn
 .unihan.com.cn
@@ -7767,6 +7761,7 @@
 .wegamedeveloper.com
 .wegameplus.com
 .wegobank.cn
+.weibo
 .weibo.cn
 .weibo.com
 .weibo.com.cn
@@ -8070,6 +8065,7 @@
 .xiguashipin.net
 .xiguavideo.cn
 .xiguavideo.net
+.xihuan
 .xilu.com
 .ximalaya.com
 .xin.xin
@@ -8118,10 +8114,13 @@
 .xmhouse.com
 .xmoj.tech
 .xn--7hvy28f.cn
+.xn--8y0a063a
+.xn--9krt00a
 .xn--czrs0t4phtr3a.cn
 .xn--fiq53l6wcx3kp9bc7joo6apn8a.cn
 .xn--fiq53l6wcx3kp9bc7joo6apn8a.xn--fiqs8s
 .xn--fiq53l90et9fpncc7joo6apn8a.cn
+.xn--fiq64b
 .xn--fiqs8sxootzz.cn
 .xn--kprv4ewxfr9cpxcc7joo6apn8a.cn
 .xn--kprv4ewxfr9cpxcc7joo6apn8a.xn--fiqs8s
@@ -8394,6 +8393,7 @@
 .yufuid.net
 .yuketang.cn
 .yumchina.com
+.yun
 .yun.139.com
 .yunaq.com
 .yunba.io

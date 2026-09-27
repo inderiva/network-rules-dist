@@ -61,7 +61,7 @@ function providerYaml(values) {
 }
 
 function domainProvider(rules) {
-  return uniqueSorted([...rules.domain, ...rules.domain_suffix.map((value) => `+.${value}`)]);
+  return uniqueSorted([...rules.domain, ...rules.domain_suffix.map((value) => `+.${value.replace(/^\./, '')}`)]);
 }
 
 function classicalProvider(rules) {
@@ -78,7 +78,7 @@ function clientPolicy(action, proxyPolicy) {
 function shadowrocketDomainSet(rules) {
   return uniqueSorted([
     ...rules.domain,
-    ...rules.domain_suffix.map((value) => `.${value}`)
+    ...rules.domain_suffix.map((value) => `.${value.replace(/^\./, '')}`)
   ]);
 }
 

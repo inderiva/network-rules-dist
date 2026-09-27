@@ -34,6 +34,8 @@ jobs:
           if git rev-parse --verify --quiet "refs/tags/$tag" >/dev/null; then
             git diff --exit-code "$tag" -- package.json scripts
           fi
+      - name: Require public-only source
+        run: node scripts/assert-public-release.mjs
       - run: npm run build
       - run: npm run check
       - run: npm test
