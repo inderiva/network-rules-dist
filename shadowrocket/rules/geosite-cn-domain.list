@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9294
+# TOTAL: 9295
 
 .0033.cn
 .00cdn.com
@@ -2171,6 +2171,7 @@
 .cn.pool.ntp.org
 .cnanzhi.com
 .cnb.cool
+.cnb.space
 .cnbksy.com
 .cnblogs.com
 .cnblogs.vip
