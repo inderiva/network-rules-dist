@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9295
+# TOTAL: 9296
 
 .0033.cn
 .00cdn.com
@@ -8193,6 +8193,7 @@
 .yahui.cc
 .yamaxun.cn
 .yamibo.com
+.yandex-ad.cn
 .yangkeduo.com
 .yangshipin.cn
 .yangtse.com

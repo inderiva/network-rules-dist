@@ -1,7 +1,7 @@
 # NAME: geosite-category-ads-all-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 903
+# TOTAL: 902
 
 .1rx.io
 .2mdn-cn.net
@@ -727,7 +727,6 @@
 .wuliao.epro.sogou.com
 .wwads.cn
 .xy-log.tagtic.cn
-.yabs.yandex.ru
 .yads.tech
 .yandex-metrica.ru
 .yandexmetrica.com

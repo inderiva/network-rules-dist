@@ -889,7 +889,6 @@ DOMAIN-SUFFIX,wmbd.gamersky.com,REJECT
 DOMAIN-SUFFIX,wuliao.epro.sogou.com,REJECT
 DOMAIN-SUFFIX,wwads.cn,REJECT
 DOMAIN-SUFFIX,xy-log.tagtic.cn,REJECT
-DOMAIN-SUFFIX,yabs.yandex.ru,REJECT
 DOMAIN-SUFFIX,yads.tech,REJECT
 DOMAIN-SUFFIX,yandex-metrica.ru,REJECT
 DOMAIN-SUFFIX,yandexmetrica.com,REJECT
