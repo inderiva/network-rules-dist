@@ -87,13 +87,9 @@ DOMAIN,clck.yandex.com,REJECT
 DOMAIN,clck.yandex.net,REJECT
 DOMAIN,clck.yango.com,REJECT
 DOMAIN,click.rustore.ru,REJECT
-DOMAIN,copilot-telemetry-service.githubusercontent.com,REJECT
-DOMAIN,copilot-telemetry.githubusercontent.com,REJECT
 DOMAIN,disney.my.sentry.io,REJECT
 DOMAIN,error-tracking.megamarket.tech,REJECT
 DOMAIN,google-analytics-suite.ozon.ru,REJECT
-DOMAIN,incoming-telemetry.thunderbird.net,REJECT
-DOMAIN,incoming.telemetry.mozilla.org,REJECT
 DOMAIN,informer.yandex.ru,REJECT
 DOMAIN,log-sdk.gifshow.com,REJECT
 DOMAIN,log.strm.yandex.ru,REJECT
@@ -437,7 +433,6 @@ DOMAIN-SUFFIX,cm.baidu.com,REJECT
 DOMAIN-SUFFIX,cnaa123.com,REJECT
 DOMAIN-SUFFIX,cnlogs.umeng.com,REJECT
 DOMAIN-SUFFIX,cnlogs.umengcloud.com,REJECT
-DOMAIN-SUFFIX,collector.github.com,REJECT
 DOMAIN-SUFFIX,collector.xhamster.com,REJECT
 DOMAIN-SUFFIX,config.uca.cloud.unity3d.com,REJECT
 DOMAIN-SUFFIX,contentabc.com,REJECT
@@ -546,8 +541,6 @@ DOMAIN-SUFFIX,googlevads-cn.com,REJECT
 DOMAIN-SUFFIX,gozendata.com,REJECT
 DOMAIN-SUFFIX,graph-fallback.instagram.com,REJECT
 DOMAIN-SUFFIX,graph.instagram.com,REJECT
-DOMAIN-SUFFIX,graph.whatsapp.com,REJECT
-DOMAIN-SUFFIX,graph.whatsapp.net,REJECT
 DOMAIN-SUFFIX,growin.cn,REJECT
 DOMAIN-SUFFIX,growingio.cn,REJECT
 DOMAIN-SUFFIX,growingio.com,REJECT
