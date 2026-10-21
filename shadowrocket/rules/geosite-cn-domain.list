@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9296
+# TOTAL: 9345
 
 .0033.cn
 .00cdn.com
@@ -1824,6 +1824,7 @@
 .chaindd.com
 .chainedbox.com
 .chainnode.com
+.chaip.me
 .changanfunds.com
 .changba.com
 .changdunovel.com
@@ -1854,6 +1855,7 @@
 .chdi.com.cn
 .che168.com
 .cheaa.com
+.check-host.cn
 .checkzeit.com
 .cheetahfun.com
 .chei.com.cn
@@ -1993,6 +1995,7 @@
 .cih-index.com
 .cilisouou.com
 .cindasc.com
+.cip.cc
 .cisco.cn
 .cisco.com.cn
 .citibank.com.cn
@@ -2421,6 +2424,7 @@
 .cyts.com
 .cytxl.com.cn
 .cyzone.cn
+.cz88.net
 .cza84.cn
 .cztv.com
 .cztvcdn.com
@@ -3340,10 +3344,12 @@
 .gei6.com
 .geilicdn.com
 .gelaiyun.net
+.geoip.cn
 .geossl.cn
 .gepush.com
 .getfeishu.cn
 .getfeishu.com
+.getmyip.top
 .getsays.cn
 .getsays.com
 .getui.cn
@@ -3594,6 +3600,7 @@
 .haofenshu.com
 .haohaodoc.com
 .haohaowan.net
+.haoip.cn
 .haojieyun.com
 .haokan.com
 .haolietou.com
@@ -4050,6 +4057,8 @@
 .ifanrusercontent.com
 .ifanrx.com
 .ifastps.com.cn
+.ifcfg.cn
+.ifconfig.cc
 .ifdian.net
 .ifeilian.cn
 .ifeilian.com
@@ -4154,16 +4163,36 @@
 .ioppo.net
 .iot-tencent.com
 .iotronic.tech
+.ip-api.cn
+.ip-api.com.cn
+.ip-check.cn
+.ip.cn
+.ip.com.cn
+.ip.plus
+.ip00.cn
+.ip111.cn
+.ip111.com
+.ip120.cn
+.ip123.top
 .ip138.com
+.ip77.net
+.ip9.com.cn
+.ip99.com
+.ipaddress.com.cn
 .ipanda.cn
 .ipanda.com
 .ipanda.com.cn
 .ipanda.net
+.ipchacha.cn
 .ipchaxun.com
+.ipchaxun.com.cn
 .ipchaxun.net
+.ipchk.cn
 .iphone-8.com.cn
 .ipify.cn
 .ipip.net
+.ipip.top
+.ipjiance.com
 .iplark.com
 .iplaysoft.com
 .ipod.com.cn
@@ -4171,9 +4200,12 @@
 .ipplus360.com
 .iprdp.net
 .iprintworks.cn
+.ipsearch.com.cn
+.ipsee.cn
 .ipshu.com
 .ipshudi.com
 .ipssh.net
+.iptest.cn
 .ipw.cn
 .iqilu.com
 .iqiyi.com
@@ -5505,6 +5537,7 @@
 .myhwclouds.com.cn
 .myhwclouds.net
 .myimis.com
+.myipinfo.cn
 .mykuaidi.com
 .myoppo.com
 .mypaas.com
@@ -5918,6 +5951,7 @@
 .pingcap.cn
 .pingcap.com
 .pingcode.com
+.pingip.cn
 .pingjs.qq.com
 .pingplusplus.com
 .pingwest.com
@@ -6407,6 +6441,7 @@
 .seeed.cn
 .seeed.com.cn
 .seeedstudio.com.cn
+.seeip.cn
 .seewo.com
 .segmentfault.com
 .segwayrobotics.com
@@ -6800,6 +6835,8 @@
 .sznews.com
 .szpgm.com
 .szse.cn
+.szu.app
+.szu.moe
 .szzfgjj.com
 .t.cn
 .t00ls.cc
@@ -7148,6 +7185,7 @@
 .tobosu.com
 .todesk.cn
 .todesk.com
+.todetect.cn
 .tokyotrial.cn
 .tol.vip
 .tom.com
@@ -7805,6 +7843,8 @@
 .wfdata.club
 .wggames.cn
 .whalecloud.com
+.whatip.cn
+.whatismyip.com.cn
 .whccb.com
 .whee.com
 .whhhealth.com
@@ -8987,9 +9027,16 @@ init.gc.apple.com
 init.itunes.apple.com
 iosapps.itunes.apple.com
 iosapps.itunes.g.aaplimg.com
+ip.3322.net
+ip.gymcalc.cn
+ip.kutool.com
+ip.plyz.net
+ip.taobao.com
+ip.webmasterhome.cn
 ipcdn.apple.com
 iphone-ld.apple.com
 iphone-ld.origin-apple.com.akadns.net
+ipv6test.wcode.net
 is-ssl.mzstatic.com-cn-lb.itunes-apple.com.akadns.net
 is1-ssl.mzstatic.com
 is1.mzstatic.com
@@ -9048,6 +9095,7 @@ mensura.cdn-apple.com
 mesu-cdn.apple.com.akadns.net
 mesu-china.apple.com.akadns.net
 mesu.apple.com
+mip.chinaz.com
 misc-assets.itunes.apple.com
 ml.cdn-apple.com
 moocs.unipus.cn
@@ -9270,6 +9318,7 @@ updates-http.cdn-apple.com.akadns.net
 updates.cdn-apple.com
 uplaypc-s-ubisoft.cdn.ubionline.com.cn
 upp.itunes.apple.com
+v6test.ipgg.cn
 valid.apple.com
 valid.origin-apple.com.akadns.net
 vlportal.download.prss.microsoft.com

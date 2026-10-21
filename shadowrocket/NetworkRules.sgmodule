@@ -108,6 +108,7 @@ DOMAIN,metrics.21-school.ru,REJECT
 DOMAIN,metrika.kontur.ru,REJECT
 DOMAIN,new-adv.ozon.ru,REJECT
 DOMAIN,o33249.ingest.sentry.io,REJECT
+DOMAIN,o33249.ingest.us.sentry.io,REJECT
 DOMAIN,o4504926511693824.ingest.sentry.io,REJECT
 DOMAIN,openai.qualtrics.com,REJECT
 DOMAIN,p3-ad-sign.byteimg.com,REJECT
