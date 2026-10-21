@@ -1,7 +1,7 @@
 # NAME: geosite-category-ads-all-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 902
+# TOTAL: 903
 
 .1rx.io
 .2mdn-cn.net
@@ -848,6 +848,7 @@ metrics.21-school.ru
 metrika.kontur.ru
 new-adv.ozon.ru
 o33249.ingest.sentry.io
+o33249.ingest.us.sentry.io
 o4504926511693824.ingest.sentry.io
 openai.qualtrics.com
 p3-ad-sign.byteimg.com
