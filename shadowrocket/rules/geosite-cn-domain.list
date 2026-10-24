@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9345
+# TOTAL: 9346
 
 .0033.cn
 .00cdn.com
@@ -7749,6 +7749,7 @@
 .wangmeng.baidu.com
 .wangniuwms.com
 .wangsu.com
+.wangsuceshi.bmcx.com
 .wangyangyang.vip
 .wangyin.com
 .wanji.net.cn
