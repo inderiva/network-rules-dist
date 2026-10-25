@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9346
+# TOTAL: 9363
 
 .0033.cn
 .00cdn.com
@@ -483,6 +483,7 @@
 .aadcloud.cn
 .aadcloud.com
 .aadrm.cn
+.aaej.cn
 .aaic.com.cn
 .aaid.umeng.com
 .aamgame.com
@@ -1270,6 +1271,7 @@
 .bibaodao.com
 .bidchance.com
 .biddingx.com
+.bigdatacq.com
 .bigfun.cn
 .bigfunapp.cn
 .bigmodel.cn
@@ -1352,6 +1354,7 @@
 .bocaviation.com
 .boccfc.cc
 .boccfc.cn
+.bocd.com.cn
 .boce.com
 .bocfullertonbank.com
 .bocgi.com
@@ -1778,6 +1781,8 @@
 .cdnv1.cn
 .cdnv2.cn
 .cdnv3.cn
+.cdrcb.com
+.cdrcbank.com
 .cdut.top
 .ce.cn
 .ceair.com
@@ -2020,6 +2025,7 @@
 .clawhub-mirror.com
 .clawhubmirror.com
 .clawsentry.cn
+.cldisk.com
 .cleargrass.com
 .clewm.net
 .cli.im
@@ -2291,13 +2297,17 @@
 .cqcb.com
 .cqccn.com
 .cqctyiptv.cn
+.cqdcg.com
+.cqge.com.cn
 .cqhlw.cn
 .cqliving.com
 .cqn.com.cn
 .cqnews.net
+.cqsdlys.cn
 .cqsjb.com
 .cqtk.com.cn
 .cqvip.com
+.cqyyxc.com
 .cr-cts.com
 .cr173.com
 .crash.163.com
@@ -2599,6 +2609,7 @@
 .diditaxi.com.cn
 .dig.bdurl.net
 .digicert.cn
+.digitalcnzz.com
 .digitaling.com
 .diiing.cn
 .dili360.com
@@ -2843,6 +2854,7 @@
 .e0n.cn
 .eagsen.com
 .easec.com.cn
+.easemob.com
 .easesale.com
 .easiu.com
 .eastday.com
@@ -3467,6 +3479,7 @@
 .gpall.net
 .gpsonextra.net
 .gputechconf.cn
+.gpzshq.cn
 .gracg.com
 .greatwallwine.com.cn
 .gree.cn
@@ -3987,6 +4000,7 @@
 .iadmusicmatvideo.music.126.net
 .ialicdn.com
 .iask.com
+.ibangbank.com
 .ibaotu.com
 .ibcet.org
 .ibdxiguaimg.com
@@ -4017,7 +4031,6 @@
 .iciba.com
 .icloud-apple.cn
 .icloud-content.com.cn
-.icloud.cn
 .icloud.com.cn
 .icloud.net.cn
 .icloudapple.cn
@@ -4225,6 +4238,8 @@
 .ishijue.com
 .ishumei.com
 .ishuqi.com
+.isigning.cn
+.isigning.com
 .ispqcloud.com
 .istoreos.com
 .istv.cn
@@ -5414,8 +5429,6 @@
 .modernjs.cn
 .modex.com.cn
 .moedu.com
-.moegirl.org
-.moegirl.org.cn
 .moer.cn
 .mofang.com
 .mofazhu.com
@@ -5572,6 +5585,7 @@
 .nalrer.cn
 .namiso.com
 .nanhaicorp.com
+.nanocorechip.com
 .nanyuenews.com
 .narwal.com
 .narwaltech.com
@@ -8200,6 +8214,7 @@
 .xuexi365.com.cn
 .xuexi365.net
 .xuexicha.com
+.xuexitong.com
 .xundupdf.com
 .xunfei.cn
 .xunfeixxj.com
@@ -8789,6 +8804,7 @@ app-analytics-services.com
 app-measurement-cn.com
 app-measurement.com
 app-site-association.cdn-apple.com
+app.moegirl.org.cn
 appldnld.apple.com
 appldnld.g.aaplimg.com
 appleid.cdn-apple.com
@@ -9272,6 +9288,7 @@ statics.teams.cdn.office.net
 status.alibabacloud.com
 stocks-sparkline-lb.apple.com.akadns.net
 stocks-sparkline.apple.com
+storage.moegirl.org.cn
 store.apple.com
 store.apple.com.edgekey.net
 store.apple.com.edgekey.net.globalredir.akadns.net

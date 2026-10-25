@@ -1,7 +1,7 @@
 # NAME: geosite-category-ads-all-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 903
+# TOTAL: 904
 
 .1rx.io
 .2mdn-cn.net
@@ -348,6 +348,7 @@
 .g1.tagtic.cn
 .g3.letv.com
 .gdt.qq.com
+.gdtimg.com
 .gemini.yahoo.com
 .getsentry.com
 .gia.jd.com
