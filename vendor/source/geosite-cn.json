@@ -3749,6 +3749,7 @@
         "fhldns.com",
         "fhyx.com",
         "filez.com",
+        "filmorigin.com",
         "fimmu.com",
         "finchina.com",
         "finclip.com",
@@ -5060,7 +5061,6 @@
         "jikecdn.com",
         "jikeiot.cloud",
         "jikexueyuan.com",
-        "jikipedia.com",
         "jimeng.com",
         "jin10.com",
         "jinantimes.com.cn",
@@ -5255,6 +5255,7 @@
         "kaipuyun.net",
         "kaixin001.com",
         "kajicam.com",
+        "kakaxing.com",
         "kameng98.com",
         "kanbox.com",
         "kancloud.cn",
@@ -8686,6 +8687,7 @@
         "xiaoluyouxuan.com",
         "xiaoluzhidian.com",
         "xiaomaicn.com",
+        "xiaomaigui.com",
         "xiaomengai.com",
         "xiaomi.cn",
         "xiaomi.com",
@@ -9370,14 +9372,14 @@
         "zzzmap.com"
       ],
       "domain_regex": [
+        "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
         ".+\\.awsdns-cn-[0-9][a-e0-9]\\.cn$",
         "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.googlevideo\\.com$",
-        "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.xn--ngstr-lra8j\\.com$",
         "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$",
+        "^.+-mihayo\\.akamaized\\.net$",
         ".+\\.awsdns-cn-[0-9][0-9]\\.(biz|com|net|top)$",
-        "^nis.+\\.10010\\.com$",
-        "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
-        "^.+-mihayo\\.akamaized\\.net$"
+        "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.xn--ngstr-lra8j\\.com$",
+        "^nis.+\\.10010\\.com$"
       ]
     }
   ]

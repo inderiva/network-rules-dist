@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9363
+# TOTAL: 9365
 
 .0033.cn
 .00cdn.com
@@ -3131,6 +3131,7 @@
 .fhldns.com
 .fhyx.com
 .filez.com
+.filmorigin.com
 .fimmu.com
 .finchina.com
 .finclip.com
@@ -4443,7 +4444,6 @@
 .jikecdn.com
 .jikeiot.cloud
 .jikexueyuan.com
-.jikipedia.com
 .jimeng.com
 .jin10.com
 .jinantimes.com.cn
@@ -4638,6 +4638,7 @@
 .kaipuyun.net
 .kaixin001.com
 .kajicam.com
+.kakaxing.com
 .kameng98.com
 .kanbox.com
 .kancloud.cn
@@ -8076,6 +8077,7 @@
 .xiaoluyouxuan.com
 .xiaoluzhidian.com
 .xiaomaicn.com
+.xiaomaigui.com
 .xiaomengai.com
 .xiaomi.cn
 .xiaomi.com
