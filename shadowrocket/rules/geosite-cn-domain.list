@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9365
+# TOTAL: 9367
 
 .0033.cn
 .00cdn.com
@@ -9271,7 +9271,9 @@ seed.siri.apple.com
 sequoia.apple.com
 service.urchin.com
 sf-api-token-service.itunes.apple.com
+sh-pod1-smp-device.apple.com
 sh-pod2-smp-device.apple.com
+sh-pod3-smp-device.apple.com
 shazam-insights.cdn-apple.com
 shell.cdn.office.net
 smp-device-content.apple.com
