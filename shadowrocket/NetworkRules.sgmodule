@@ -252,7 +252,10 @@ DOMAIN-SUFFIX,adnet.sohu.com,REJECT
 DOMAIN-SUFFIX,adnxs.com,REJECT
 DOMAIN-SUFFIX,adping.qq.com,REJECT
 DOMAIN-SUFFIX,adpm.app.qq.com,REJECT
+DOMAIN-SUFFIX,ads-api-o.api.leiniao.com,REJECT
+DOMAIN-SUFFIX,ads-api-t.my7v.com,REJECT
 DOMAIN-SUFFIX,ads-api.duolingo.com,REJECT
+DOMAIN-SUFFIX,ads-o.res.leiniao.com,REJECT
 DOMAIN-SUFFIX,ads-pixiv.net,REJECT
 DOMAIN-SUFFIX,ads-twitter.com,REJECT
 DOMAIN-SUFFIX,ads-union.jd.com,REJECT
@@ -592,6 +595,7 @@ DOMAIN-SUFFIX,ipinyou.com,REJECT
 DOMAIN-SUFFIX,ipinyou.com.cn,REJECT
 DOMAIN-SUFFIX,ironbeast.io,REJECT
 DOMAIN-SUFFIX,isdspeed.qq.com,REJECT
+DOMAIN-SUFFIX,isms-o.api.my7v.com,REJECT
 DOMAIN-SUFFIX,iwanad.baidu.com,REJECT
 DOMAIN-SUFFIX,ja.gamersky.com,REJECT
 DOMAIN-SUFFIX,ja1.gamersky.com,REJECT
