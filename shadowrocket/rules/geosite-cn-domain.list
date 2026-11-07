@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9394
+# TOTAL: 9395
 
 .0033.cn
 .00cdn.com
@@ -789,6 +789,7 @@
 .alizhaopin.com
 .allawnfs.com
 .allawno.com
+.allawnofs.com
 .allawntech.com
 .allday.work
 .allflow.cn
