@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9502
+# TOTAL: 9503
 
 .0033.cn
 .00cdn.com
@@ -5740,6 +5740,7 @@
 .nga.cn
 .ngabbs.com
 .ngacn.cc
+.nia-teams.com
 .nic.xin
 .nicaifu.com
 .nicezhuanye.com

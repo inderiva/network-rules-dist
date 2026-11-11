@@ -6360,6 +6360,7 @@
         "nga.cn",
         "ngabbs.com",
         "ngacn.cc",
+        "nia-teams.com",
         "nic.xin",
         "nicaifu.com",
         "nicezhuanye.com",
@@ -9510,13 +9511,13 @@
       ],
       "domain_regex": [
         "^.+-mihayo\\.akamaized\\.net$",
-        ".+\\.awsdns-cn-[0-9][a-e0-9]\\.cn$",
+        "^nis.+\\.10010\\.com$",
         "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.xn--ngstr-lra8j\\.com$",
-        "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$",
-        "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
         ".+\\.awsdns-cn-[0-9][0-9]\\.(biz|com|net|top)$",
+        "^cdn\\d-epicgames-\\d+\\.file\\.myqcloud\\.com$",
         "^r+[0-9]+(---|\\.)sn-(2x3|ni5|j5o)\\w{5}\\.googlevideo\\.com$",
-        "^nis.+\\.10010\\.com$"
+        "^epicgames-download\\d-\\d+\\.file\\.myqcloud\\.com$",
+        ".+\\.awsdns-cn-[0-9][a-e0-9]\\.cn$"
       ]
     }
   ]
