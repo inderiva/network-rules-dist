@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9503
+# TOTAL: 9519
 
 .0033.cn
 .00cdn.com
@@ -961,6 +961,8 @@
 .arco.design
 .ark-doc-resources.cn
 .ark.letv.com
+.arknights.com
+.arknights.com.cn
 .arpun.com
 .arrow.cn
 .asczwa.com
@@ -1612,6 +1614,7 @@
 .caoliao.net
 .capcut.cn
 .capitalonline.net
+.captive.apple.com
 .cardbaobao.com
 .carnoc.com
 .cas.cn
@@ -3746,6 +3749,7 @@
 .hftfund.com
 .hfx.net
 .hfzq.com.cn
+.hgto.cc
 .hhtravel.com
 .hi-butterfly.cn
 .hiaiabc.com
@@ -4035,9 +4039,15 @@
 .hxsd.com
 .hxzq.cn
 .hybiome.com
+.hycdn.cn
+.hycdn.com
 .hydun.com
 .hypercachenet.com
 .hypercachenode.com
+.hypergryph.cn
+.hypergryph.com
+.hypergryph.com.cn
+.hypergryph.net
 .hytung.cn
 .hzchengdun.com
 .hzchengdun.net
@@ -5834,6 +5844,7 @@
 .oceancloudapi.com
 .oceanengine.com
 .ocfund.cn
+.octavedge.com
 .ocwms.com
 .oeeee.com
 .oemssl.cn
@@ -6720,6 +6731,8 @@
 .sjwyx.com
 .skillhub.cn
 .skimit.net
+.skland.com
+.skland.net
 .sksight.com
 .skycn.com
 .skydweller.cn
@@ -9029,6 +9042,7 @@ collaborateppe.download.prss.microsoft.com
 communities.apple.com
 configuration.apple.com
 configuration.apple.com.akadns.net
+configuration.ls.apple.com
 connectivitycheck.gstatic.com
 crashlyticsreports-pa.googleapis.com
 crl-lb.apple.com.akadns.net
@@ -9260,10 +9274,12 @@ msdn.download.prss.microsoft.com
 msdprod-ad.download.prss.microsoft.com
 msproduct.download.prss.microsoft.com
 music.apple.com
+musicstatus.itunes.apple.com
 musicstatus.music.apple.com
 mvod.itunes.apple.com
 myapp.itunes.apple.com
 myvs.download.prss.microsoft.com
+mzstorekit.itunes.apple.com
 np-edge.itunes.apple.com
 ntp.aliyun.com
 ntp.tencent.com
