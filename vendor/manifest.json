@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-11-19T01:54:14.313Z",
+  "updated_at": "2026-11-20T01:47:16.351Z",
   "sing_box_version": "1.13.4",
   "sources": [
     {
       "tag": "geosite-cn",
       "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-cn.srs",
-      "sha256": "2eb1d0110045f1f749677037e85b4955c54ecb1dc341df72744c518787a12a50",
-      "entries": 9527
+      "sha256": "cd66decb391db5895049ac2dba21d6c493f013092f36e47918ee1d3d672c3fe2",
+      "entries": 9555
     },
     {
       "tag": "geosite-category-ads-all",
       "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-ads-all.srs",
-      "sha256": "5577fd713d8479b6df9bcfe5832eab9d6d4fd5a34ea5748460618ed30526cb0c",
-      "entries": 909
+      "sha256": "22b7e7ea226f59f0f0f76db133de1cc80ecc47f59380a1d2e7e6538b8853ec82",
+      "entries": 910
     },
     {
       "tag": "geoip-cn",
@@ -20,10 +20,10 @@
         "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china.txt",
         "https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china6.txt"
       ],
-      "sha256": "f698411bb784a0d509dc9db6a743ea5776097c44680183d78200f1845ab98e61",
-      "entries": 9665,
-      "ipv4": 6221,
-      "ipv6": 3444
+      "sha256": "cc2acc4a6c0c9378573140c86ecbf343a9fc99c42aa53d59554feb7238841f68",
+      "entries": 9673,
+      "ipv4": 6227,
+      "ipv6": 3446
     }
   ]
 }

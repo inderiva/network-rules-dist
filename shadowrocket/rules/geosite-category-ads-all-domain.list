@@ -1,7 +1,7 @@
 # NAME: geosite-category-ads-all-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 908
+# TOTAL: 909
 
 .1rx.io
 .2mdn-cn.net
@@ -672,6 +672,7 @@
 .tcss.qq.com
 .tdsdk.cpatrk.net
 .telecome.cn
+.tencentads.com
 .testads.api.my7v.com
 .theta.sogoucdn.com
 .tjqonline.cn
