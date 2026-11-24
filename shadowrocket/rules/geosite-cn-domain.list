@@ -1,7 +1,7 @@
 # NAME: geosite-cn-domain
 # REPO: https://github.com/inderiva/network-rules-dist
 # TYPE: domain-set
-# TOTAL: 9547
+# TOTAL: 9552
 
 .0033.cn
 .00cdn.com
@@ -2958,6 +2958,7 @@
 .eceshi.com
 .ecgapp.com.cn
 .echargenet.com
+.echooai.com
 .ecitic.com
 .ecjobhome.com
 .eckwai.com
@@ -3108,8 +3109,10 @@
 .favonis.cloud
 .favonis.com
 .favonis.space
+.faw-vw.com
 .faw.cn
 .faxingbao.com
+.fazhipro.com
 .fbank.com
 .fbstatic.cn
 .fcapp.run
@@ -4103,6 +4106,7 @@
 .icbcstandardbank.com
 .icbcstandardresources.com
 .icbcstandardsecurities.com
+.icc.link
 .iccvlog.com
 .iceo.com.cn
 .ichangtou.com
@@ -6504,6 +6508,7 @@
 .s.union.360.cn
 .s0n.cn
 .sa.sina.cn
+.saasfz.com
 .saasops.tech
 .saayaa.com
 .saduck.top
