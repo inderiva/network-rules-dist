@@ -58,16 +58,14 @@ test('default Shadowrocket module never overrides the existing routing policy', 
   }
 });
 
-test('Shadowrocket main config routes LinkedIn by domain without IP-triggered local DNS', async () => {
+test('Shadowrocket main config routes China domains and direct IPs without IP-triggered local DNS', async () => {
   const config = await readFile(resolve(rootDir, 'shadowrocket/NetworkRules.conf'), 'utf8');
   const ads = config.indexOf('/geosite-category-ads-all-domain.list,REJECT');
-  const linkedin = config.indexOf('DOMAIN-SUFFIX,linkedin.com,PROXY');
-  const licdn = config.indexOf('DOMAIN-SUFFIX,licdn.com,PROXY');
-  const licdnCn = config.indexOf('DOMAIN-SUFFIX,licdn.cn,PROXY');
   const cn = config.indexOf('/geosite-cn-domain.list,DIRECT');
   const geoip = config.indexOf('GEOIP,CN,DIRECT,no-resolve');
   const final = config.indexOf('FINAL,PROXY,dns-failed');
-  assert.ok(ads >= 0 && ads < linkedin && linkedin < licdn && licdn < licdnCn && licdnCn < cn && cn < geoip && geoip < final);
+  assert.ok(ads >= 0 && ads < cn && cn < geoip && geoip < final);
+  assert.doesNotMatch(config, /linkedin\.com|licdn\.(?:com|cn)/i);
   assert.doesNotMatch(config, /^RULE-SET,.*geoip-cn\.list,DIRECT/m);
   assert.doesNotMatch(config, /^GEOIP,CN,DIRECT$/m);
   assert.equal((config.match(/^FINAL,/gm) ?? []).length, 1);
