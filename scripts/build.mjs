@@ -357,8 +357,8 @@ if (!privateProfile) {
   `update-url = ${rulesBaseUrl}/shadowrocket/NetworkRules.conf`,
   'skip-proxy = 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,127.0.0.0/8,localhost,*.local,captive.apple.com',
   'tun-excluded-routes = 10.0.0.0/8,127.0.0.0/8,169.254.0.0/16,172.16.0.0/12,192.168.0.0/16,224.0.0.0/4,255.255.255.255/32,ff02::fb/128',
-  'dns-server = https://dns.alidns.com/dns-query',
-  'fallback-dns-server = https://doh.pub/dns-query',
+  'dns-server = https://223.5.5.5/dns-query',
+  'fallback-dns-server = https://1.12.12.12/dns-query',
   'ipv6 = false',
   'prefer-ipv6 = false',
   'dns-direct-system = false',
@@ -403,7 +403,7 @@ ${privateProfile ? '本仓库的 `NetworkRules.sgmodule` 只提供私有例外�
 
 使用主配置时，把全局路由设为“配置”。国内域名与直接访问的国内 IP（通过 \`GEOIP,CN,DIRECT,no-resolve\`）直连，其余域名走代理；LinkedIn 及其媒体域名明确走代理。主配置不加载会触发本地预解析的国内 IP 清单，\`no-resolve\` 仅匹配裸 IP 请求，不会让未收录域名在本地预解析；局域网和私有 IP 例外仍直连。
 
-直连域名使用阿里 DoH，失败时尝试腾讯 DoH，不配置明文 DNS 或系统 DNS 回退。最终代理规则保留 dns-failed，使本地解析失败的域名仍可交给代理。更新手机配置后需在 Shadowrocket 日志中复核实际 DNS 与分流行为。
+直连域名使用阿里 IP 型 DoH（\`https://223.5.5.5/dns-query\`），失败时尝试腾讯 IP 型 DoH（\`https://1.12.12.12/dns-query\`），免域名 bootstrap 解析且不配置明文 DNS 或系统 DNS 回退。最终代理规则保留 dns-failed，使本地解析失败的域名仍可交给代理。更新手机配置后需在 Shadowrocket 日志中复核实际 DNS 与分流行为。
 `);
 await writeAtomic(resolve(singBoxDir, 'USAGE.md'), `# sing-box
 
